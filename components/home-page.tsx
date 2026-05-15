@@ -89,6 +89,7 @@ const institutions = [
 
 export default function HomePage() {
   const [currentBanner, setCurrentBanner] = useState(0)
+  const [currentWorker, setCurrentWorker] = useState(0)
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -197,38 +198,78 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* Hot Recommendations */}
+      {/* Hot Recommendations - Carousel */}
       <div className="px-4 mt-4">
         <div className="flex items-center justify-between mb-3">
           <h2 className="text-base font-bold text-foreground">热门推荐</h2>
           <ChevronRight className="w-5 h-5 text-muted-foreground" />
         </div>
-        <div className="space-y-3">
-          {recommendedWorkers.map((worker) => (
-            <div key={worker.id} className="bg-card rounded-2xl p-3 flex gap-3 shadow-sm">
-              <img
-                src={worker.image}
-                alt={worker.name}
-                className="w-20 h-20 rounded-xl object-cover"
-              />
-              <div className="flex-1">
-                <div className="flex items-center gap-2">
-                  <h3 className="font-medium text-foreground">{worker.name}</h3>
-                  <span className="text-xs text-muted-foreground bg-muted px-2 py-0.5 rounded">
-                    {worker.title}
-                  </span>
+        <div className="relative">
+          <div className="overflow-hidden">
+            <div
+              className="flex transition-transform duration-500 ease-out"
+              style={{ transform: `translateX(-${currentWorker * 100}%)` }}
+            >
+              {recommendedWorkers.map((worker) => (
+                <div key={worker.id} className="w-full flex-shrink-0 px-2">
+                  <div className="bg-card rounded-2xl p-4 shadow-sm">
+                    <div className="flex gap-3">
+                      <img
+                        src={worker.image}
+                        alt={worker.name}
+                        className="w-20 h-20 rounded-xl object-cover"
+                      />
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2 mb-1">
+                          <h3 className="font-bold text-foreground text-sm">{worker.name}</h3>
+                          <span className="text-xs text-muted-foreground bg-muted px-2 py-0.5 rounded">
+                            {worker.title}
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-2 text-xs mb-2">
+                          <span className="flex items-center gap-1 font-medium">
+                            <Star className="w-3.5 h-3.5 fill-yellow-400 text-yellow-400" />
+                            {worker.rating}
+                          </span>
+                          <span className="text-muted-foreground">已售 {worker.sold}</span>
+                        </div>
+                        <p className="text-primary font-bold text-sm">{worker.price}</p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div className="flex items-center gap-3 mt-2 text-xs text-muted-foreground">
-                  <span className="flex items-center gap-1">
-                    <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
-                    {worker.rating}
-                  </span>
-                  <span>已售 {worker.sold}</span>
-                </div>
-                <p className="text-primary font-bold mt-2">{worker.price}</p>
-              </div>
+              ))}
             </div>
-          ))}
+          </div>
+          
+          {/* Navigation Buttons */}
+          <button
+            onClick={() => setCurrentWorker((prev) => (prev - 1 + recommendedWorkers.length) % recommendedWorkers.length)}
+            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-2 z-10 bg-white rounded-full p-2 shadow-md hover:shadow-lg transition-shadow"
+          >
+            <ChevronRight className="w-4 h-4 text-foreground rotate-180" />
+          </button>
+          <button
+            onClick={() => setCurrentWorker((prev) => (prev + 1) % recommendedWorkers.length)}
+            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-2 z-10 bg-white rounded-full p-2 shadow-md hover:shadow-lg transition-shadow"
+          >
+            <ChevronRight className="w-4 h-4 text-foreground" />
+          </button>
+
+          {/* Indicator Dots */}
+          <div className="flex gap-1.5 justify-center mt-3">
+            {recommendedWorkers.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrentWorker(index)}
+                className={`w-2 h-2 rounded-full transition-all ${
+                  index === currentWorker
+                    ? "bg-primary w-4"
+                    : "bg-border"
+                }`}
+              />
+            ))}
+          </div>
         </div>
       </div>
 

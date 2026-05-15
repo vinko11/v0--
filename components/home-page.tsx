@@ -1,6 +1,25 @@
 "use client"
 
+import { useState, useEffect } from "react"
 import { MapPin, Bell, Search, Phone, Navigation, Star, ChevronRight, Home, Users, Stethoscope, Bath, UtensilsCrossed, Wrench, Sparkles, ShieldCheck, Activity, Settings, Heart, MoreHorizontal } from "lucide-react"
+
+const banners = [
+  {
+    id: 1,
+    image: "https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?w=800&h=400&fit=crop",
+    title: "专业护理服务",
+  },
+  {
+    id: 2,
+    image: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=800&h=400&fit=crop",
+    title: "康复理疗特惠",
+  },
+  {
+    id: 3,
+    image: "https://images.unsplash.com/photo-1582719471384-894fbb16e074?w=800&h=400&fit=crop",
+    title: "温馨养老机构",
+  },
+]
 
 const services = [
   { icon: Home, label: "居家护工", color: "#4DD8CD" },
@@ -69,10 +88,19 @@ const institutions = [
 ]
 
 export default function HomePage() {
+  const [currentBanner, setCurrentBanner] = useState(0)
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentBanner((prev) => (prev + 1) % banners.length)
+    }, 3000)
+    return () => clearInterval(timer)
+  }, [])
+
   return (
     <div className="min-h-screen bg-background pb-20">
       {/* Header */}
-      <div className="bg-gradient-to-b from-[#71F2DC] to-[#4DD8CD] px-4 pt-12 pb-6">
+      <div className="bg-gradient-to-b from-[#71F2DC] to-[#4DD8CD] px-4 pt-12 pb-8">
         <div className="flex items-center justify-between text-white">
           <div className="flex items-center gap-1">
             <MapPin className="w-4 h-4" />
@@ -95,8 +123,42 @@ export default function HomePage() {
         </div>
       </div>
 
+      {/* Banner Carousel */}
+      <div className="px-4 -mt-3">
+        <div className="relative rounded-2xl overflow-hidden shadow-lg">
+          <div
+            className="flex transition-transform duration-500 ease-out"
+            style={{ transform: `translateX(-${currentBanner * 100}%)` }}
+          >
+            {banners.map((banner) => (
+              <div key={banner.id} className="w-full flex-shrink-0">
+                <img
+                  src={banner.image}
+                  alt={banner.title}
+                  className="w-full h-36 object-cover"
+                />
+              </div>
+            ))}
+          </div>
+          {/* Indicator Dots */}
+          <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1.5">
+            {banners.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrentBanner(index)}
+                className={`w-2 h-2 rounded-full transition-all ${
+                  index === currentBanner
+                    ? "bg-white w-4"
+                    : "bg-white/50"
+                }`}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+
       {/* Quick Services Grid */}
-      <div className="px-4 py-4 bg-card mx-3 -mt-2 rounded-2xl shadow-sm">
+      <div className="px-4 py-4 bg-card mx-3 mt-3 rounded-2xl shadow-sm">
         <div className="grid grid-cols-4 gap-4">
           {services.map((service, index) => (
             <button key={index} className="flex flex-col items-center gap-2">

@@ -220,7 +220,7 @@ export default function HomePage() {
                     <img
                       src={worker.image}
                       alt={worker.name}
-                      className="w-full aspect-video object-cover"
+                      className="w-full h-24 object-cover"
                     />
                     <div className="p-3">
                       <h3 className="font-bold text-foreground text-sm mb-1">{worker.name}</h3>

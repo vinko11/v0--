@@ -40,7 +40,7 @@ export default function ProfilePage() {
       </div>
 
       {/* Stats Card */}
-      <div className="mx-4 -mt-10 bg-card rounded-2xl p-4 shadow-sm">
+      <div className="mx-4 -mt-5 bg-card rounded-2xl p-4 shadow-sm">
         <div className="grid grid-cols-3 divide-x divide-border">
           <div className="flex flex-col items-center gap-1">
             <div className="flex items-center gap-1 text-primary">

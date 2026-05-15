@@ -207,11 +207,11 @@ export default function HomePage() {
         <div className="relative">
           <div className="overflow-hidden">
             <div
-              className="flex transition-transform duration-500 ease-out"
-              style={{ transform: `translateX(-${currentWorker * 100}%)` }}
+              className="flex transition-transform duration-500 ease-out gap-3"
+              style={{ transform: `translateX(-${currentWorker * 50}%)` }}
             >
               {recommendedWorkers.map((worker) => (
-                <div key={worker.id} className="w-full flex-shrink-0 px-2">
+                <div key={worker.id} className="w-1/2 flex-shrink-0">
                   <div className="bg-card rounded-2xl p-4 shadow-sm">
                     <div className="flex gap-3">
                       <img
@@ -258,17 +258,22 @@ export default function HomePage() {
 
           {/* Indicator Dots */}
           <div className="flex gap-1.5 justify-center mt-3">
-            {recommendedWorkers.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => setCurrentWorker(index)}
-                className={`w-2 h-2 rounded-full transition-all ${
-                  index === currentWorker
-                    ? "bg-primary w-4"
-                    : "bg-border"
-                }`}
-              />
-            ))}
+            {Math.ceil(recommendedWorkers.length / 2) > 1 && recommendedWorkers.map((_, index) => {
+              if (index % 2 === 0 && index / 2 < Math.ceil(recommendedWorkers.length / 2)) {
+                return (
+                  <button
+                    key={index}
+                    onClick={() => setCurrentWorker(index)}
+                    className={`w-2 h-2 rounded-full transition-all ${
+                      index === currentWorker
+                        ? "bg-primary w-4"
+                        : "bg-border"
+                    }`}
+                  />
+                )
+              }
+              return null
+            })}
           </div>
         </div>
       </div>

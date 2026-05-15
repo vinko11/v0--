@@ -77,12 +77,16 @@ const institutions = [
     id: 1,
     image: "https://images.unsplash.com/photo-1586773860418-d37222d8fce3?w=400&h=300&fit=crop",
     name: "阳光养老院",
+    rating: 4.8,
+    reviews: 256,
     address: "南京市建邺区江东中路388号",
   },
   {
     id: 2,
     image: "https://images.unsplash.com/photo-1582719471384-894fbb16e074?w=400&h=300&fit=crop",
     name: "康乐护理中心",
+    rating: 4.9,
+    reviews: 312,
     address: "南京市鼓楼区中央路201号",
   },
 ]
@@ -282,22 +286,40 @@ export default function HomePage() {
         </div>
         <div className="space-y-3">
           {institutions.map((inst) => (
-            <div key={inst.id} className="bg-card rounded-2xl p-3 flex gap-3 shadow-sm">
-              <img
-                src={inst.image}
-                alt={inst.name}
-                className="w-24 h-20 rounded-xl object-cover"
-              />
-              <div className="flex-1">
-                <h3 className="font-medium text-foreground">{inst.name}</h3>
-                <p className="text-xs text-muted-foreground mt-1 line-clamp-2">{inst.address}</p>
+            <div key={inst.id} className="bg-card rounded-2xl p-4 shadow-sm">
+              <div className="flex gap-3 mb-3">
+                <img
+                  src={inst.image}
+                  alt={inst.name}
+                  className="w-24 h-20 rounded-xl object-cover flex-shrink-0"
+                />
+                <div className="flex-1 flex flex-col">
+                  <h3 className="font-bold text-foreground text-sm">{inst.name}</h3>
+                  <div className="flex items-center gap-2 mt-1">
+                    <div className="flex gap-0.5">
+                      {[...Array(5)].map((_, i) => (
+                        <Star
+                          key={i}
+                          className={`w-3 h-3 ${
+                            i < Math.floor(inst.rating)
+                              ? "fill-yellow-400 text-yellow-400"
+                              : "fill-gray-200 text-gray-200"
+                          }`}
+                        />
+                      ))}
+                    </div>
+                    <span className="text-xs font-medium text-foreground">{inst.rating}</span>
+                    <span className="text-xs text-muted-foreground">({inst.reviews})</span>
+                  </div>
+                </div>
               </div>
-              <div className="flex flex-col gap-2 justify-center">
-                <button className="w-9 h-9 rounded-full bg-green-50 flex items-center justify-center">
-                  <Phone className="w-4 h-4 text-green-500" />
-                </button>
-                <button className="w-9 h-9 rounded-full bg-blue-50 flex items-center justify-center">
-                  <Navigation className="w-4 h-4 text-blue-500" />
+              <div className="flex items-start justify-between">
+                <div className="flex items-start gap-1 flex-1">
+                  <MapPin className="w-3.5 h-3.5 text-primary flex-shrink-0 mt-0.5" />
+                  <p className="text-xs text-muted-foreground line-clamp-2">{inst.address}</p>
+                </div>
+                <button className="ml-2 px-3 py-1.5 bg-primary text-primary-foreground rounded-lg text-xs font-medium hover:opacity-90 transition-opacity flex-shrink-0">
+                  查看详情
                 </button>
               </div>
             </div>

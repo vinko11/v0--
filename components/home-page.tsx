@@ -186,7 +186,7 @@ export default function HomePage() {
               <img
                 src={service.image}
                 alt={service.name}
-                className="w-full aspect-square object-cover"
+                className="w-full aspect-video object-cover"
               />
               <div className="p-3">
                 <h3 className="text-sm font-medium text-foreground line-clamp-1">{service.name}</h3>

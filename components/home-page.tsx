@@ -212,29 +212,25 @@ export default function HomePage() {
             >
               {recommendedWorkers.map((worker) => (
                 <div key={worker.id} className="w-1/2 flex-shrink-0">
-                  <div className="bg-card rounded-2xl p-4 shadow-sm">
-                    <div className="flex gap-3">
-                      <img
-                        src={worker.image}
-                        alt={worker.name}
-                        className="w-20 h-20 rounded-xl object-cover"
-                      />
-                      <div className="flex-1">
-                        <div className="flex items-center gap-2 mb-1">
-                          <h3 className="font-bold text-foreground text-sm">{worker.name}</h3>
-                          <span className="text-xs text-muted-foreground bg-muted px-2 py-0.5 rounded">
-                            {worker.title}
-                          </span>
-                        </div>
-                        <div className="flex items-center gap-2 text-xs mb-2">
-                          <span className="flex items-center gap-1 font-medium">
-                            <Star className="w-3.5 h-3.5 fill-yellow-400 text-yellow-400" />
-                            {worker.rating}
-                          </span>
-                          <span className="text-muted-foreground">已售 {worker.sold}</span>
-                        </div>
-                        <p className="text-primary font-bold text-sm">{worker.price}</p>
+                  <div className="bg-card rounded-2xl overflow-hidden shadow-sm">
+                    <img
+                      src={worker.image}
+                      alt={worker.name}
+                      className="w-full aspect-square object-cover"
+                    />
+                    <div className="p-3">
+                      <h3 className="font-bold text-foreground text-sm mb-1">{worker.name}</h3>
+                      <span className="text-xs text-muted-foreground bg-muted px-2 py-0.5 rounded inline-block mb-2">
+                        {worker.title}
+                      </span>
+                      <div className="flex items-center gap-2 text-xs mb-2">
+                        <span className="flex items-center gap-0.5 font-medium">
+                          <Star className="w-3.5 h-3.5 fill-yellow-400 text-yellow-400" />
+                          {worker.rating}
+                        </span>
+                        <span className="text-muted-foreground">已售 {worker.sold}</span>
                       </div>
+                      <p className="text-primary font-bold text-sm">{worker.price}</p>
                     </div>
                   </div>
                 </div>

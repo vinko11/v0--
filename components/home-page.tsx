@@ -22,18 +22,18 @@ const banners = [
 ]
 
 const services = [
-  { icon: Home, label: "居家护工", color: "#4DD8CD" },
-  { icon: Users, label: "住院陪护", color: "#f59e0b" },
-  { icon: Stethoscope, label: "助医服务", color: "#ef4444" },
-  { icon: Bath, label: "助浴服务", color: "#8b5cf6" },
-  { icon: UtensilsCrossed, label: "助餐服务", color: "#ec4899" },
-  { icon: Wrench, label: "器材租售", color: "#3b82f6" },
-  { icon: Sparkles, label: "保洁服务", color: "#10b981" },
-  { icon: ShieldCheck, label: "安全检查", color: "#f97316" },
-  { icon: Activity, label: "慢病监测", color: "#06b6d4" },
-  { icon: Settings, label: "适老改造", color: "#6366f1" },
-  { icon: Heart, label: "暖心服务", color: "#f43f5e" },
-  { icon: MoreHorizontal, label: "更多", color: "#6b7280" },
+  { icon: Home, label: "居家护工", color: "#4DD8CD", id: "home" },
+  { icon: Users, label: "住院陪护", color: "#f59e0b", id: "hospital" },
+  { icon: Stethoscope, label: "助医服务", color: "#ef4444", id: "medical" },
+  { icon: Bath, label: "助浴服务", color: "#8b5cf6", id: "bath" },
+  { icon: UtensilsCrossed, label: "助餐服务", color: "#ec4899", id: "meal" },
+  { icon: Wrench, label: "器材租售", color: "#3b82f6", id: "equipment" },
+  { icon: Sparkles, label: "保洁服务", color: "#10b981", id: "cleaning" },
+  { icon: ShieldCheck, label: "安全检查", color: "#f97316", id: "safety" },
+  { icon: Activity, label: "慢病监测", color: "#06b6d4", id: "health" },
+  { icon: Settings, label: "适老改造", color: "#6366f1", id: "renovation" },
+  { icon: Heart, label: "暖心服务", color: "#f43f5e", id: "warm" },
+  { icon: MoreHorizontal, label: "更多", color: "#6b7280", id: "more" },
 ]
 
 const featuredServices = [
@@ -101,9 +101,10 @@ interface HomePageProps {
   onProductClick?: (product: any) => void
   onWorkerClick?: (worker: any) => void
   onInstitutionClick?: (institution: any) => void
+  onServiceClick?: (serviceId: string) => void
 }
 
-export default function HomePage({ onProductClick, onWorkerClick, onInstitutionClick }: HomePageProps) {
+export default function HomePage({ onProductClick, onWorkerClick, onInstitutionClick, onServiceClick }: HomePageProps) {
   const [currentBanner, setCurrentBanner] = useState(0)
   const [currentWorker, setCurrentWorker] = useState(0)
 
@@ -178,7 +179,11 @@ export default function HomePage({ onProductClick, onWorkerClick, onInstitutionC
       <div className="px-4 py-4 bg-card mx-3 mt-3 rounded-2xl shadow-sm">
         <div className="grid grid-cols-4 gap-4">
           {services.map((service, index) => (
-            <button key={index} className="flex flex-col items-center gap-2">
+            <button
+              key={index}
+              onClick={() => service.id !== "more" && onServiceClick?.(service.id)}
+              className="flex flex-col items-center gap-2"
+            >
               <div
                 className="w-12 h-12 rounded-xl flex items-center justify-center"
                 style={{ backgroundColor: `${service.color}15` }}

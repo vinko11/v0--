@@ -10,8 +10,10 @@ import ProductDetailPage from "@/components/product-detail-page"
 import WorkerDetailPage from "@/components/worker-detail-page"
 import InstitutionDetailPage from "@/components/institution-detail-page"
 import OrderPage from "@/components/order-page"
+import ServiceListPage from "@/components/service-list-page"
+import { getServiceCategory } from "@/lib/service-data"
 
-type PageType = "home" | "category" | "post" | "profile" | "product-detail" | "worker-detail" | "institution-detail" | "order"
+type PageType = "home" | "category" | "post" | "profile" | "product-detail" | "worker-detail" | "institution-detail" | "order" | "service-list"
 
 export default function App() {
   const [activeTab, setActiveTab] = useState("home")
@@ -20,6 +22,7 @@ export default function App() {
   const [selectedWorker, setSelectedWorker] = useState<any>(null)
   const [selectedInstitution, setSelectedInstitution] = useState<any>(null)
   const [orderItem, setOrderItem] = useState<any>(null)
+  const [selectedServiceId, setSelectedServiceId] = useState<string>("")
 
   const handleProductClick = (product: any) => {
     setSelectedProduct(product)
@@ -36,6 +39,26 @@ export default function App() {
     setCurrentPage("institution-detail")
   }
 
+  const handleServiceClick = (serviceId: string) => {
+    setSelectedServiceId(serviceId)
+    setCurrentPage("service-list")
+  }
+
+  const handleServiceItemClick = (service: any) => {
+    setSelectedProduct({
+      id: service.id,
+      name: service.name,
+      price: service.price,
+      image: service.image,
+      desc: service.desc,
+      rating: service.rating,
+      sold: service.sold,
+      tags: service.tags,
+      unit: service.unit,
+    })
+    setCurrentPage("product-detail")
+  }
+
   const handleOrder = (item: any) => {
     setOrderItem({
       name: item.name,
@@ -47,20 +70,35 @@ export default function App() {
   }
 
   const handleBack = () => {
+    if (currentPage === "product-detail" && selectedServiceId) {
+      setCurrentPage("service-list")
+    } else {
+      setCurrentPage(activeTab as PageType)
+      setSelectedServiceId("")
+    }
+  }
+
+  const handleServiceListBack = () => {
     setCurrentPage(activeTab as PageType)
+    setSelectedServiceId("")
   }
 
   const handleOrderComplete = () => {
     setCurrentPage(activeTab as PageType)
+    setSelectedServiceId("")
   }
 
   const handleTabChange = (tab: string) => {
     setActiveTab(tab)
     setCurrentPage(tab as PageType)
+    setSelectedServiceId("")
   }
 
   // Check if we should show TabBar
   const showTabBar = ["home", "category", "post", "profile"].includes(currentPage)
+
+  // Get service category data
+  const serviceCategory = selectedServiceId ? getServiceCategory(selectedServiceId) : null
 
   return (
     <div className="max-w-md mx-auto bg-background min-h-screen relative">
@@ -70,6 +108,7 @@ export default function App() {
           onProductClick={handleProductClick}
           onWorkerClick={handleWorkerClick}
           onInstitutionClick={handleInstitutionClick}
+          onServiceClick={handleServiceClick}
         />
       )}
       {currentPage === "category" && (
@@ -77,6 +116,18 @@ export default function App() {
       )}
       {currentPage === "post" && <PostPage />}
       {currentPage === "profile" && <ProfilePage />}
+
+      {/* Service List Page */}
+      {currentPage === "service-list" && serviceCategory && (
+        <ServiceListPage
+          title={serviceCategory.label}
+          icon={serviceCategory.icon}
+          color={serviceCategory.color}
+          services={serviceCategory.services}
+          onBack={handleServiceListBack}
+          onServiceClick={handleServiceItemClick}
+        />
+      )}
 
       {/* Detail Pages */}
       {currentPage === "product-detail" && (

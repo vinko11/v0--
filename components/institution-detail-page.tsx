@@ -232,14 +232,14 @@ export default function InstitutionDetailPage({ onBack, onOrder, institution }: 
       </div>
 
       {/* Bottom Action Bar */}
-      <div className="fixed bottom-0 left-0 right-0 bg-card border-t border-border px-4 py-4 flex items-center justify-center gap-6">
-        <button className="flex flex-col items-center gap-1">
+      <div className="fixed bottom-0 left-0 right-0 bg-card border-t border-border flex">
+        <button className="flex-1 flex flex-col items-center justify-center gap-1 py-4 border-r border-border hover:bg-muted/50 transition-colors">
           <div className="w-10 h-10 rounded-full bg-green-50 flex items-center justify-center">
             <Phone className="w-5 h-5 text-green-500" />
           </div>
           <span className="text-xs text-muted-foreground">电话</span>
         </button>
-        <button className="flex flex-col items-center gap-1">
+        <button className="flex-1 flex flex-col items-center justify-center gap-1 py-4 hover:bg-muted/50 transition-colors">
           <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
             <MapPin className="w-5 h-5 text-primary" />
           </div>

@@ -125,13 +125,6 @@ export default function CategoryPage({ onProductClick, onBack, initialCategory }
 
       {/* Right Content */}
       <div className="flex-1 pb-20">
-        {/* Header with Title */}
-        <div className="bg-gradient-to-b from-[#71F2DC] to-[#4DD8CD] px-4 py-4">
-          <h2 className="text-white font-medium">
-            {categories.find((c) => c.id === activeCategory)?.label}
-          </h2>
-        </div>
-
         {/* Search Box */}
         <div className="px-3 py-3 bg-background sticky top-0 z-10">
           <div className="relative">

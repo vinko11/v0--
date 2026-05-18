@@ -92,23 +92,28 @@ export default function CategoryPage() {
 
       {/* Right Content */}
       <div className="flex-1 pb-20">
+        {/* Header with Title */}
         <div className="bg-gradient-to-b from-[#71F2DC] to-[#4DD8CD] px-4 py-4">
-          <h2 className="text-white font-medium mb-3">
+          <h2 className="text-white font-medium">
             {categories.find((c) => c.id === activeCategory)?.label}
           </h2>
+        </div>
+
+        {/* Search Box */}
+        <div className="px-3 py-3 bg-background sticky top-0 z-10">
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/60" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
             <input
               type="text"
               placeholder="搜索产品..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-white/20 backdrop-blur-sm text-white placeholder:text-white/50 rounded-full px-4 py-2.5 pl-10 text-sm outline-none border border-white/30 focus:border-white/60 transition-colors"
+              className="w-full bg-card text-foreground placeholder:text-muted-foreground rounded-lg px-4 py-2.5 pl-10 text-sm outline-none border border-border focus:border-primary focus:ring-1 focus:ring-primary transition-colors shadow-sm"
             />
           </div>
         </div>
 
-        <div className="p-3 space-y-3">
+        <div className="p-3 pt-0 space-y-3">
           {filteredProducts.length > 0 ? (
             filteredProducts.map((product) => (
             <div key={product.id} className="bg-card rounded-2xl overflow-hidden shadow-sm flex">

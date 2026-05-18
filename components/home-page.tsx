@@ -42,12 +42,18 @@ const featuredServices = [
     image: "https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?w=400&h=400&fit=crop",
     name: "资深护工24小时陪护",
     price: "¥180/天",
+    spec: "24小时全天候",
+    rating: 4.9,
+    sold: 328,
   },
   {
     id: 2,
     image: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=400&h=400&fit=crop",
     name: "专业康复理疗服务",
     price: "¥120/次",
+    spec: "单次服务",
+    rating: 4.8,
+    sold: 256,
   },
 ]
 
@@ -91,7 +97,13 @@ const institutions = [
   },
 ]
 
-export default function HomePage() {
+interface HomePageProps {
+  onProductClick?: (product: any) => void
+  onWorkerClick?: (worker: any) => void
+  onInstitutionClick?: (institution: any) => void
+}
+
+export default function HomePage({ onProductClick, onWorkerClick, onInstitutionClick }: HomePageProps) {
   const [currentBanner, setCurrentBanner] = useState(0)
   const [currentWorker, setCurrentWorker] = useState(0)
 
@@ -187,7 +199,11 @@ export default function HomePage() {
         </div>
         <div className="grid grid-cols-2 gap-3">
           {featuredServices.map((service) => (
-            <div key={service.id} className="bg-card rounded-2xl overflow-hidden shadow-sm">
+            <button
+              key={service.id}
+              onClick={() => onProductClick?.(service)}
+              className="bg-card rounded-2xl overflow-hidden shadow-sm text-left"
+            >
               <img
                 src={service.image}
                 alt={service.name}
@@ -197,7 +213,7 @@ export default function HomePage() {
                 <h3 className="text-sm font-medium text-foreground line-clamp-1">{service.name}</h3>
                 <p className="text-primary font-bold mt-1">{service.price}</p>
               </div>
-            </div>
+            </button>
           ))}
         </div>
       </div>
@@ -216,7 +232,10 @@ export default function HomePage() {
             >
               {recommendedWorkers.map((worker) => (
                 <div key={worker.id} className="w-1/2 flex-shrink-0">
-                  <div className="bg-card rounded-2xl overflow-hidden shadow-sm">
+                  <button
+                    onClick={() => onWorkerClick?.(worker)}
+                    className="w-full bg-card rounded-2xl overflow-hidden shadow-sm text-left"
+                  >
                     <img
                       src={worker.image}
                       alt={worker.name}
@@ -236,7 +255,7 @@ export default function HomePage() {
                       </div>
                       <p className="text-primary font-bold text-sm">{worker.price}</p>
                     </div>
-                  </div>
+                  </button>
                 </div>
               ))}
             </div>
@@ -286,7 +305,11 @@ export default function HomePage() {
         </div>
         <div className="space-y-3">
           {institutions.map((inst) => (
-            <div key={inst.id} className="bg-card rounded-2xl p-3 flex gap-3 shadow-sm items-start">
+            <button
+              key={inst.id}
+              onClick={() => onInstitutionClick?.(inst)}
+              className="w-full bg-card rounded-2xl p-3 flex gap-3 shadow-sm items-start text-left"
+            >
               <img
                 src={inst.image}
                 alt={inst.name}
@@ -316,14 +339,14 @@ export default function HomePage() {
                 </div>
               </div>
               <div className="flex flex-col gap-2 flex-shrink-0">
-                <button className="w-8 h-8 rounded-full bg-green-50 flex items-center justify-center hover:bg-green-100 transition-colors">
+                <div className="w-8 h-8 rounded-full bg-green-50 flex items-center justify-center">
                   <Phone className="w-4 h-4 text-green-500" />
-                </button>
-                <button className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center hover:bg-primary/20 transition-colors">
+                </div>
+                <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
                   <ChevronRight className="w-4 h-4 text-primary" />
-                </button>
+                </div>
               </div>
-            </div>
+            </button>
           ))}
         </div>
       </div>

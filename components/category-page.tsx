@@ -57,7 +57,11 @@ const products = [
   },
 ]
 
-export default function CategoryPage() {
+interface CategoryPageProps {
+  onProductClick?: (product: any) => void
+}
+
+export default function CategoryPage({ onProductClick }: CategoryPageProps) {
   const [activeCategory, setActiveCategory] = useState("home")
   const [searchQuery, setSearchQuery] = useState("")
 
@@ -116,7 +120,19 @@ export default function CategoryPage() {
         <div className="p-3 pt-0 space-y-3">
           {filteredProducts.length > 0 ? (
             filteredProducts.map((product) => (
-            <div key={product.id} className="bg-card rounded-2xl overflow-hidden shadow-sm flex">
+            <button
+              key={product.id}
+              onClick={() => onProductClick?.({
+                id: product.id,
+                name: product.name,
+                price: `¥${product.price}`,
+                image: product.image,
+                spec: product.spec,
+                rating: product.rating / 20,
+                sold: Math.floor(Math.random() * 300) + 100,
+              })}
+              className="w-full bg-card rounded-2xl overflow-hidden shadow-sm flex text-left"
+            >
               <img
                 src={product.image}
                 alt={product.name}
@@ -139,12 +155,12 @@ export default function CategoryPage() {
                 </div>
                 <div className="flex items-center justify-between mt-2">
                   <span className="text-primary font-bold">¥{product.price}</span>
-                  <button className="bg-gradient-to-r from-[#71F2DC] to-[#4DD8CD] text-white text-xs px-4 py-1.5 rounded-full font-medium">
+                  <span className="bg-gradient-to-r from-[#71F2DC] to-[#4DD8CD] text-white text-xs px-4 py-1.5 rounded-full font-medium">
                     预约
-                  </button>
+                  </span>
                 </div>
               </div>
-            </div>
+            </button>
             ))
           ) : (
             <div className="flex items-center justify-center py-12">

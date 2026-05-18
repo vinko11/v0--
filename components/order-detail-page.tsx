@@ -1,6 +1,6 @@
 "use client"
 
-import { ChevronLeft, Phone, MapPin, Calendar, Clock, Copy, MessageSquare } from "lucide-react"
+import { ChevronLeft, Phone, MapPin, Calendar, Clock, Copy, MessageSquare, Check, Activity } from "lucide-react"
 
 interface OrderDetailPageProps {
   onBack: () => void
@@ -14,6 +14,8 @@ interface OrderDetailPageProps {
     workerImage: string
     date: string
     price: string
+    orderType?: string // 新增订单类型：普通服务 or health_monitor（慢病监测）
+    healthMonitorStep?: number // 慢病监测当前步骤 1-4
   }
 }
 
@@ -31,6 +33,17 @@ export default function OrderDetailPage({ onBack, order }: OrderDetailPageProps)
   }
 
   const currentOrder = order || defaultOrder
+
+  // 慢病监测步骤配置
+  const healthMonitorSteps = [
+    { id: 1, label: "待上门检测", description: "等待服务人员上门" },
+    { id: 2, label: "检测信息已填", description: "检测数据已录入" },
+    { id: 3, label: "待确认收货", description: "请确认检测报告" },
+    { id: 4, label: "已完成", description: "服务已完成" },
+  ]
+
+  const currentHealthStep = currentOrder.healthMonitorStep || 1
+  const isHealthMonitor = currentOrder.orderType === "health_monitor"
 
   // 订单详细信息（Mock数据）
   const orderDetail = {
@@ -100,6 +113,61 @@ export default function OrderDetailPage({ onBack, order }: OrderDetailPageProps)
       </div>
 
       <div className="px-4 space-y-3 -mt-2">
+        {/* 慢病监测步骤条 */}
+        {isHealthMonitor && (
+          <div className="bg-card rounded-2xl p-4 shadow-sm">
+            <div className="flex items-center gap-2 mb-4">
+              <Activity className="w-5 h-5 text-primary" />
+              <h3 className="font-bold text-foreground">检测进度</h3>
+            </div>
+            <div className="relative">
+              {/* Progress Line */}
+              <div className="absolute top-4 left-4 right-4 h-0.5 bg-muted" />
+              <div 
+                className="absolute top-4 left-4 h-0.5 bg-primary transition-all"
+                style={{ width: `${((currentHealthStep - 1) / 3) * 100}%` }}
+              />
+              
+              {/* Steps */}
+              <div className="relative flex justify-between">
+                {healthMonitorSteps.map((step) => {
+                  const isCompleted = step.id < currentHealthStep
+                  const isCurrent = step.id === currentHealthStep
+                  return (
+                    <div key={step.id} className="flex flex-col items-center" style={{ width: "25%" }}>
+                      <div className={`w-8 h-8 rounded-full flex items-center justify-center z-10 ${
+                        isCompleted 
+                          ? "bg-primary text-white" 
+                          : isCurrent 
+                            ? "bg-primary text-white ring-4 ring-primary/20" 
+                            : "bg-muted text-muted-foreground"
+                      }`}>
+                        {isCompleted ? (
+                          <Check className="w-4 h-4" />
+                        ) : (
+                          <span className="text-xs font-bold">{step.id}</span>
+                        )}
+                      </div>
+                      <p className={`text-xs mt-2 text-center ${
+                        isCurrent ? "text-primary font-medium" : "text-muted-foreground"
+                      }`}>
+                        {step.label}
+                      </p>
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+            
+            {/* Current Step Description */}
+            <div className="mt-4 p-3 bg-primary/5 rounded-xl">
+              <p className="text-sm text-primary">
+                当前状态：{healthMonitorSteps[currentHealthStep - 1]?.description}
+              </p>
+            </div>
+          </div>
+        )}
+
         {/* 服务人员信息 */}
         {currentOrder.status !== "pending" && (
           <div className="bg-card rounded-2xl p-4 shadow-sm">

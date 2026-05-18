@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { MapPin, Bell, Search, Phone, Navigation, Star, ChevronRight, Home, Users, Stethoscope, Bath, UtensilsCrossed, Wrench, Sparkles, ShieldCheck, Activity, Settings, Heart, MoreHorizontal } from "lucide-react"
+import CitySelectorModal, { cities } from "./city-selector-modal"
 
 const banners = [
   {
@@ -107,6 +108,19 @@ interface HomePageProps {
 export default function HomePage({ onProductClick, onWorkerClick, onInstitutionClick, onServiceClick }: HomePageProps) {
   const [currentBanner, setCurrentBanner] = useState(0)
   const [currentWorker, setCurrentWorker] = useState(0)
+  const [selectedCity, setSelectedCity] = useState("nanjing")
+  const [showCityModal, setShowCityModal] = useState(false)
+
+  const currentCityName = cities.find((c) => c.id === selectedCity)?.name || "南京市"
+  const priceMultiplier = cities.find((c) => c.id === selectedCity)?.priceMultiplier || 1
+
+  const getAdjustedPrice = (basePrice: string): string => {
+    const numMatch = basePrice.match(/\d+/)
+    if (!numMatch) return basePrice
+    const baseNum = parseInt(numMatch[0])
+    const adjustedNum = Math.round(baseNum * priceMultiplier)
+    return basePrice.replace(/\d+/, adjustedNum.toString())
+  }
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -120,10 +134,13 @@ export default function HomePage({ onProductClick, onWorkerClick, onInstitutionC
       {/* Header */}
       <div className="bg-gradient-to-b from-[#71F2DC] to-[#4DD8CD] px-4 pt-12 pb-8">
         <div className="flex items-center justify-between text-white">
-          <div className="flex items-center gap-1">
+          <button
+            onClick={() => setShowCityModal(true)}
+            className="flex items-center gap-1 hover:opacity-80 transition-opacity"
+          >
             <MapPin className="w-4 h-4" />
-            <span className="text-sm">南京市</span>
-          </div>
+            <span className="text-sm">{currentCityName}</span>
+          </button>
           <h1 className="text-lg font-bold">青蓝养老</h1>
           <Bell className="w-5 h-5" />
         </div>
@@ -216,7 +233,7 @@ export default function HomePage({ onProductClick, onWorkerClick, onInstitutionC
               />
               <div className="p-3">
                 <h3 className="text-sm font-medium text-foreground line-clamp-1">{service.name}</h3>
-                <p className="text-primary font-bold mt-1">{service.price}</p>
+                <p className="text-primary font-bold mt-1">{getAdjustedPrice(service.price)}</p>
               </div>
             </button>
           ))}
@@ -258,7 +275,7 @@ export default function HomePage({ onProductClick, onWorkerClick, onInstitutionC
                         </span>
                         <span className="text-muted-foreground">已售 {worker.sold}</span>
                       </div>
-                      <p className="text-primary font-bold text-sm">{worker.price}</p>
+                      <p className="text-primary font-bold text-sm">{getAdjustedPrice(worker.price)}</p>
                     </div>
                   </button>
                 </div>
@@ -355,6 +372,14 @@ export default function HomePage({ onProductClick, onWorkerClick, onInstitutionC
           ))}
         </div>
       </div>
+
+      {/* City Selector Modal */}
+      <CitySelectorModal
+        isOpen={showCityModal}
+        selectedCity={selectedCity}
+        onClose={() => setShowCityModal(false)}
+        onSelectCity={setSelectedCity}
+      />
     </div>
   )
 }

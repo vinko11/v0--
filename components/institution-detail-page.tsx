@@ -232,20 +232,18 @@ export default function InstitutionDetailPage({ onBack, onOrder, institution }: 
       </div>
 
       {/* Bottom Action Bar */}
-      <div className="fixed bottom-0 left-0 right-0 bg-card border-t border-border px-4 py-3 flex items-center gap-3">
-        <button className="flex flex-col items-center gap-0.5">
-          <Phone className="w-5 h-5 text-muted-foreground" />
+      <div className="fixed bottom-0 left-0 right-0 bg-card border-t border-border px-4 py-4 flex items-center justify-center gap-6">
+        <button className="flex flex-col items-center gap-1">
+          <div className="w-10 h-10 rounded-full bg-green-50 flex items-center justify-center">
+            <Phone className="w-5 h-5 text-green-500" />
+          </div>
           <span className="text-xs text-muted-foreground">电话</span>
         </button>
-        <button className="flex flex-col items-center gap-0.5 ml-2">
-          <Heart className="w-5 h-5 text-muted-foreground" />
-          <span className="text-xs text-muted-foreground">收藏</span>
-        </button>
-        <button
-          onClick={() => onOrder(currentInstitution)}
-          className="flex-1 ml-4 py-2.5 rounded-full bg-gradient-to-r from-[#71F2DC] to-[#4DD8CD] text-white font-medium text-sm"
-        >
-          预约参观
+        <button className="flex flex-col items-center gap-1">
+          <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+            <MapPin className="w-5 h-5 text-primary" />
+          </div>
+          <span className="text-xs text-muted-foreground">位置</span>
         </button>
       </div>
     </div>

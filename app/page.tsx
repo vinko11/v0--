@@ -10,8 +10,10 @@ import ProductDetailPage from "@/components/product-detail-page"
 import WorkerDetailPage from "@/components/worker-detail-page"
 import InstitutionDetailPage from "@/components/institution-detail-page"
 import OrderPage from "@/components/order-page"
+import DemandListPage from "@/components/demand-list-page"
+import DemandDetailPage from "@/components/demand-detail-page"
 
-type PageType = "home" | "category" | "post" | "profile" | "product-detail" | "worker-detail" | "institution-detail" | "order"
+type PageType = "home" | "category" | "post" | "profile" | "product-detail" | "worker-detail" | "institution-detail" | "order" | "demand-list" | "demand-detail"
 
 export default function App() {
   const [activeTab, setActiveTab] = useState("home")
@@ -19,6 +21,7 @@ export default function App() {
   const [selectedProduct, setSelectedProduct] = useState<any>(null)
   const [selectedWorker, setSelectedWorker] = useState<any>(null)
   const [selectedInstitution, setSelectedInstitution] = useState<any>(null)
+  const [selectedDemand, setSelectedDemand] = useState<any>(null)
   const [orderItem, setOrderItem] = useState<any>(null)
   const [initialCategory, setInitialCategory] = useState<string>("")
 
@@ -40,7 +43,6 @@ export default function App() {
   // 金刚区点击 -> 跳转到分类页并选中对应分类
   const handleServiceClick = (serviceId: string) => {
     if (serviceId === "more") {
-      // "更多"跳转到分类页默认显示
       setInitialCategory("")
     } else {
       setInitialCategory(serviceId)
@@ -70,8 +72,12 @@ export default function App() {
 
   const handleTabChange = (tab: string) => {
     setActiveTab(tab)
-    setCurrentPage(tab as PageType)
-    // 如果不是从金刚区进入分类页，清空初始分类
+    // 如果点击"发布"tab，显示需求列表页
+    if (tab === "post") {
+      setCurrentPage("demand-list")
+    } else {
+      setCurrentPage(tab as PageType)
+    }
     if (tab !== "category") {
       setInitialCategory("")
     }
@@ -83,8 +89,30 @@ export default function App() {
     setInitialCategory("")
   }
 
+  // 需求相关导航
+  const handleDemandClick = (demand: any) => {
+    setSelectedDemand(demand)
+    setCurrentPage("demand-detail")
+  }
+
+  const handleNewDemand = () => {
+    setCurrentPage("post")
+  }
+
+  const handleDemandBack = () => {
+    setCurrentPage("demand-list")
+  }
+
+  const handlePostBack = () => {
+    setCurrentPage("demand-list")
+  }
+
+  const handlePostSubmit = () => {
+    setCurrentPage("demand-list")
+  }
+
   // Check if we should show TabBar
-  const showTabBar = ["home", "category", "post", "profile"].includes(currentPage)
+  const showTabBar = ["home", "category", "demand-list", "profile"].includes(currentPage)
 
   return (
     <div className="max-w-md mx-auto bg-background min-h-screen relative">
@@ -104,7 +132,24 @@ export default function App() {
           initialCategory={initialCategory}
         />
       )}
-      {currentPage === "post" && <PostPage />}
+      {currentPage === "demand-list" && (
+        <DemandListPage
+          onDemandClick={handleDemandClick}
+          onNewDemand={handleNewDemand}
+        />
+      )}
+      {currentPage === "demand-detail" && (
+        <DemandDetailPage
+          demand={selectedDemand}
+          onBack={handleDemandBack}
+        />
+      )}
+      {currentPage === "post" && (
+        <PostPage
+          onBack={handlePostBack}
+          onSubmit={handlePostSubmit}
+        />
+      )}
       {currentPage === "profile" && <ProfilePage />}
 
       {/* Detail Pages */}

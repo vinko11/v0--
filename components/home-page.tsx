@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import { MapPin, Bell, Search, Phone, Navigation, Star, ChevronRight, Home, Users, Stethoscope, Bath, UtensilsCrossed, Wrench, Sparkles, ShieldCheck, Activity, Settings, Heart, MoreHorizontal, Brain } from "lucide-react"
 import CitySelectorModal, { cities } from "./city-selector-modal"
+import AnnouncementCarousel from "./announcement-carousel"
 
 const banners = [
   {
@@ -196,6 +197,11 @@ export default function HomePage({ onProductClick, onWorkerClick, onInstitutionC
               className="bg-transparent text-white placeholder:text-white/70 outline-none flex-1 text-sm"
             />
           </div>
+        </div>
+
+        {/* Announcement Carousel */}
+        <div className="mt-4 px-4">
+          <AnnouncementCarousel onClick={onAnnouncementClick} />
         </div>
       </div>
 

@@ -1,29 +1,61 @@
 "use client"
 
+import { useState } from "react"
 import { Settings, Wallet, Gift, Clock, CheckCircle, RotateCcw, FileText, MapPin, Headphones, Info, ChevronRight, Building2, Users, TrendingUp, ShoppingCart, Truck, Star } from "lucide-react"
+import InstitutionRegisterPage from "./institution-register-page"
+import StaffRegisterPage from "./staff-register-page"
+import ReferralPage from "./referral-page"
+import AddressPage from "./address-page"
+import OrderListPage from "./order-list-page"
+import ServiceAgreementPage from "./service-agreement-page"
+import CustomerServicePage from "./customer-service-page"
+import AboutUsPage from "./about-us-page"
+import SettingsPage from "./settings-page"
+
+type SubPage = "main" | "institution" | "staff" | "referral" | "address" | "orders" | "agreement" | "service" | "about" | "settings"
 
 const orderStatuses = [
-  { icon: ShoppingCart, label: "全部订单", color: "#6b7280" },
-  { icon: Clock, label: "待付款", color: "#f59e0b" },
-  { icon: Truck, label: "派单中", color: "#3b82f6" },
-  { icon: CheckCircle, label: "已派单", color: "#10b981" },
-  { icon: Star, label: "未评价", color: "#a855f7" },
-  { icon: Star, label: "已评价", color: "#ec4899" },
-  { icon: RotateCcw, label: "退款中", color: "#ef4444" },
+  { icon: Clock, label: "待付款", color: "#f59e0b", page: "pending" },
+  { icon: Truck, label: "派单中", color: "#3b82f6", page: "dispatching" },
+  { icon: CheckCircle, label: "已派单", color: "#10b981", page: "dispatched" },
+  { icon: Star, label: "未评价", color: "#a855f7", page: "unreviewed" },
+  { icon: Star, label: "已评价", color: "#ec4899", page: "reviewed" },
+  { icon: RotateCcw, label: "退款中", color: "#ef4444", page: "refunding" },
 ]
 
 const tools = [
-  { icon: Building2, label: "机构入驻", color: "#3b82f6" },
-  { icon: Users, label: "服务人员入驻", color: "#10b981" },
-  { icon: TrendingUp, label: "推荐得积分", color: "#f59e0b" },
-  { icon: MapPin, label: "我的地址", color: "#ef4444" },
-  { icon: FileText, label: "服务协议", color: "#8b5cf6" },
-  { icon: Headphones, label: "联系客服", color: "#06b6d4" },
-  { icon: Info, label: "关于我们", color: "#6b7280" },
-  { icon: Settings, label: "设置", color: "#374151" },
+  { icon: Building2, label: "机构入驻", color: "#3b82f6", page: "institution" as SubPage },
+  { icon: Users, label: "服务人员入驻", color: "#10b981", page: "staff" as SubPage },
+  { icon: TrendingUp, label: "推荐得积分", color: "#f59e0b", page: "referral" as SubPage },
+  { icon: MapPin, label: "我的地址", color: "#ef4444", page: "address" as SubPage },
+  { icon: FileText, label: "服务协议", color: "#8b5cf6", page: "agreement" as SubPage },
+  { icon: Headphones, label: "联系客服", color: "#06b6d4", page: "service" as SubPage },
+  { icon: Info, label: "关于我们", color: "#6b7280", page: "about" as SubPage },
+  { icon: Settings, label: "设置", color: "#374151", page: "settings" as SubPage },
 ]
 
 export default function ProfilePage() {
+  const [currentPage, setCurrentPage] = useState<SubPage>("main")
+  const [orderTab, setOrderTab] = useState("all")
+
+  const handleBack = () => setCurrentPage("main")
+
+  const handleOrderClick = (tab: string) => {
+    setOrderTab(tab)
+    setCurrentPage("orders")
+  }
+
+  // Render sub pages
+  if (currentPage === "institution") return <InstitutionRegisterPage onBack={handleBack} />
+  if (currentPage === "staff") return <StaffRegisterPage onBack={handleBack} />
+  if (currentPage === "referral") return <ReferralPage onBack={handleBack} />
+  if (currentPage === "address") return <AddressPage onBack={handleBack} />
+  if (currentPage === "orders") return <OrderListPage onBack={handleBack} initialTab={orderTab} />
+  if (currentPage === "agreement") return <ServiceAgreementPage onBack={handleBack} />
+  if (currentPage === "service") return <CustomerServicePage onBack={handleBack} />
+  if (currentPage === "about") return <AboutUsPage onBack={handleBack} />
+  if (currentPage === "settings") return <SettingsPage onBack={handleBack} />
+
   return (
     <div className="min-h-screen bg-background pb-20">
       {/* Header */}
@@ -42,7 +74,9 @@ export default function ProfilePage() {
               <p className="text-white/80 text-sm">138****8888</p>
             </div>
           </div>
-          <Settings className="w-6 h-6 text-white" />
+          <button onClick={() => setCurrentPage("settings")}>
+            <Settings className="w-6 h-6 text-white" />
+          </button>
         </div>
       </div>
 
@@ -70,14 +104,38 @@ export default function ProfilePage() {
       <div className="mx-4 mt-4 bg-card rounded-2xl p-4 shadow-sm">
         <div className="flex items-center justify-between mb-4">
           <h3 className="font-bold text-foreground">我的订单</h3>
-          <div className="flex items-center gap-1 text-muted-foreground text-sm">
+          <button 
+            onClick={() => handleOrderClick("all")}
+            className="flex items-center gap-1 text-muted-foreground text-sm"
+          >
             <span>查看全部</span>
             <ChevronRight className="w-4 h-4" />
-          </div>
+          </button>
         </div>
         <div className="grid grid-cols-4 gap-3">
-          {orderStatuses.slice(1).map((status, index) => (
-            <button key={index} className="flex flex-col items-center gap-1.5">
+          {orderStatuses.slice(0, 4).map((status, index) => (
+            <button 
+              key={index} 
+              onClick={() => handleOrderClick(status.page)}
+              className="flex flex-col items-center gap-1.5"
+            >
+              <div
+                className="w-11 h-11 rounded-full flex items-center justify-center"
+                style={{ backgroundColor: `${status.color}15` }}
+              >
+                <status.icon className="w-5 h-5" style={{ color: status.color }} />
+              </div>
+              <span className="text-xs text-foreground text-center">{status.label}</span>
+            </button>
+          ))}
+        </div>
+        <div className="grid grid-cols-4 gap-3 mt-3">
+          {orderStatuses.slice(4).map((status, index) => (
+            <button 
+              key={index} 
+              onClick={() => handleOrderClick(status.page)}
+              className="flex flex-col items-center gap-1.5"
+            >
               <div
                 className="w-11 h-11 rounded-full flex items-center justify-center"
                 style={{ backgroundColor: `${status.color}15` }}
@@ -95,7 +153,11 @@ export default function ProfilePage() {
         <h3 className="font-bold text-foreground mb-4">常用工具</h3>
         <div className="grid grid-cols-4 gap-4">
           {tools.map((tool, index) => (
-            <button key={index} className="flex flex-col items-center gap-1.5">
+            <button 
+              key={index} 
+              onClick={() => setCurrentPage(tool.page)}
+              className="flex flex-col items-center gap-1.5"
+            >
               <div
                 className="w-11 h-11 rounded-full flex items-center justify-center"
                 style={{ backgroundColor: `${tool.color}15` }}

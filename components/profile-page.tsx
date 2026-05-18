@@ -20,7 +20,7 @@ const orderStatuses = [
   { icon: CheckCircle, label: "已派单", color: "#10b981", page: "dispatched" },
   { icon: Star, label: "未评价", color: "#a855f7", page: "unreviewed" },
   { icon: Star, label: "已评价", color: "#ec4899", page: "reviewed" },
-  { icon: RotateCcw, label: "退款中", color: "#ef4444", page: "refunding" },
+  { icon: RotateCcw, label: "退款", color: "#ef4444", page: "refunding" },
 ]
 
 const tools = [

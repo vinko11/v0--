@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import HomePage from "@/components/home-page"
 import CategoryPage from "@/components/category-page"
 import PostPage from "@/components/post-page"
@@ -12,8 +12,9 @@ import InstitutionDetailPage from "@/components/institution-detail-page"
 import OrderPage from "@/components/order-page"
 import DemandListPage from "@/components/demand-list-page"
 import DemandDetailPage from "@/components/demand-detail-page"
+import AnnouncementListPage, { UrgentAnnouncementModal, hasUrgentAnnouncement } from "@/components/announcement-page"
 
-type PageType = "home" | "category" | "post" | "profile" | "product-detail" | "worker-detail" | "institution-detail" | "order" | "demand-list" | "demand-detail"
+type PageType = "home" | "category" | "post" | "profile" | "product-detail" | "worker-detail" | "institution-detail" | "order" | "demand-list" | "demand-detail" | "announcement"
 
 export default function App() {
   const [activeTab, setActiveTab] = useState("home")
@@ -24,6 +25,14 @@ export default function App() {
   const [selectedDemand, setSelectedDemand] = useState<any>(null)
   const [orderItem, setOrderItem] = useState<any>(null)
   const [initialCategory, setInitialCategory] = useState<string>("")
+  const [showUrgentModal, setShowUrgentModal] = useState(false)
+
+  // 首次加载检查紧急公告
+  useEffect(() => {
+    if (hasUrgentAnnouncement()) {
+      setShowUrgentModal(true)
+    }
+  }, [])
 
   const handleProductClick = (product: any) => {
     setSelectedProduct(product)
@@ -49,6 +58,15 @@ export default function App() {
     }
     setActiveTab("category")
     setCurrentPage("category")
+  }
+
+  // 公告点击
+  const handleAnnouncementClick = () => {
+    setCurrentPage("announcement")
+  }
+
+  const handleAnnouncementBack = () => {
+    setCurrentPage("home")
   }
 
   const handleOrder = (item: any) => {
@@ -123,6 +141,7 @@ export default function App() {
           onWorkerClick={handleWorkerClick}
           onInstitutionClick={handleInstitutionClick}
           onServiceClick={handleServiceClick}
+          onAnnouncementClick={handleAnnouncementClick}
         />
       )}
       {currentPage === "category" && (
@@ -131,6 +150,9 @@ export default function App() {
           onBack={initialCategory ? handleCategoryBack : undefined}
           initialCategory={initialCategory}
         />
+      )}
+      {currentPage === "announcement" && (
+        <AnnouncementListPage onBack={handleAnnouncementBack} />
       )}
       {currentPage === "demand-list" && (
         <DemandListPage
@@ -186,6 +208,12 @@ export default function App() {
 
       {/* Tab Bar - only show on main pages */}
       {showTabBar && <TabBar activeTab={activeTab} onTabChange={handleTabChange} />}
+
+      {/* 紧急公告弹窗 */}
+      <UrgentAnnouncementModal
+        isOpen={showUrgentModal}
+        onClose={() => setShowUrgentModal(false)}
+      />
     </div>
   )
 }

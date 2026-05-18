@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { MapPin, Bell, Search, Phone, Navigation, Star, ChevronRight, Home, Users, Stethoscope, Bath, UtensilsCrossed, Wrench, Sparkles, ShieldCheck, Activity, Settings, Heart, MoreHorizontal } from "lucide-react"
+import { MapPin, Bell, Search, Phone, Navigation, Star, ChevronRight, Home, Users, Stethoscope, Bath, UtensilsCrossed, Wrench, Sparkles, ShieldCheck, Activity, Settings, Heart, MoreHorizontal, Brain } from "lucide-react"
 import CitySelectorModal, { cities } from "./city-selector-modal"
 
 const banners = [
@@ -34,27 +34,64 @@ const services = [
   { icon: Activity, label: "慢病监测", color: "#06b6d4", id: "health" },
   { icon: Settings, label: "适老改造", color: "#6366f1", id: "renovation" },
   { icon: Heart, label: "暖心服务", color: "#f43f5e", id: "warm" },
-  { icon: MoreHorizontal, label: "更多", color: "#6b7280", id: "more" },
+  { icon: Brain, label: "心理健康", color: "#a855f7", id: "psychology" },
 ]
 
-const featuredServices = [
+// 并列服务（保洁类）
+const parallelServices = [
   {
-    id: 1,
-    image: "https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?w=400&h=400&fit=crop",
-    name: "资深护工24小时陪护",
-    price: "¥180/天",
-    spec: "24小时全天候",
+    id: 101,
+    image: "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=400&h=400&fit=crop",
+    name: "3小时深度保洁",
+    price: "¥168/次",
+    spec: "深度清洁",
     rating: 4.9,
-    sold: 328,
+    sold: 456,
+    category: "cleaning",
   },
   {
-    id: 2,
-    image: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=400&h=400&fit=crop",
-    name: "专业康复理疗服务",
-    price: "¥120/次",
-    spec: "单次服务",
+    id: 102,
+    image: "https://images.unsplash.com/photo-1527515637462-cff94eecc1ac?w=400&h=400&fit=crop",
+    name: "3小时日常保洁",
+    price: "¥128/次",
+    spec: "日常清洁",
     rating: 4.8,
-    sold: 256,
+    sold: 623,
+    category: "cleaning",
+  },
+]
+
+// 热门服务（与清单对齐）
+const hotServices = [
+  {
+    id: 201,
+    image: "https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?w=400&h=400&fit=crop",
+    name: "淋浴助浴【半失能】",
+    price: "¥198/次",
+    spec: "专业助浴",
+    rating: 4.9,
+    sold: 328,
+    category: "bath",
+  },
+  {
+    id: 202,
+    image: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=400&h=400&fit=crop",
+    name: "心理疏导【线上】",
+    price: "¥150/次",
+    spec: "线上咨询",
+    rating: 4.8,
+    sold: 189,
+    category: "psychology",
+  },
+  {
+    id: 203,
+    image: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=400&h=400&fit=crop",
+    name: "陪诊就医【4h】",
+    price: "¥180/次",
+    spec: "4小时陪诊",
+    rating: 4.9,
+    sold: 267,
+    category: "medical",
   },
 ]
 
@@ -103,9 +140,10 @@ interface HomePageProps {
   onWorkerClick?: (worker: any) => void
   onInstitutionClick?: (institution: any) => void
   onServiceClick?: (serviceId: string) => void
+  onAnnouncementClick?: () => void
 }
 
-export default function HomePage({ onProductClick, onWorkerClick, onInstitutionClick, onServiceClick }: HomePageProps) {
+export default function HomePage({ onProductClick, onWorkerClick, onInstitutionClick, onServiceClick, onAnnouncementClick }: HomePageProps) {
   const [currentBanner, setCurrentBanner] = useState(0)
   const [currentWorker, setCurrentWorker] = useState(0)
   const [selectedCity, setSelectedCity] = useState("nanjing")
@@ -142,7 +180,10 @@ export default function HomePage({ onProductClick, onWorkerClick, onInstitutionC
             <span className="text-sm">{currentCityName}</span>
           </button>
           <h1 className="text-lg font-bold">青蓝养老</h1>
-          <Bell className="w-5 h-5" />
+          <button onClick={onAnnouncementClick} className="relative">
+            <Bell className="w-5 h-5" />
+            <span className="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full" />
+          </button>
         </div>
 
         {/* Search */}
@@ -198,7 +239,7 @@ export default function HomePage({ onProductClick, onWorkerClick, onInstitutionC
           {services.map((service, index) => (
             <button
               key={index}
-              onClick={() => service.id !== "more" && onServiceClick?.(service.id)}
+              onClick={() => onServiceClick?.(service.id)}
               className="flex flex-col items-center gap-2"
             >
               <div
@@ -213,14 +254,14 @@ export default function HomePage({ onProductClick, onWorkerClick, onInstitutionC
         </div>
       </div>
 
-      {/* Featured Services */}
+      {/* 并列服务 - 保洁类 */}
       <div className="px-4 mt-4">
         <div className="flex items-center justify-between mb-3">
-          <h2 className="text-base font-bold text-foreground">精选服务</h2>
+          <h2 className="text-base font-bold text-foreground">保洁服务</h2>
           <ChevronRight className="w-5 h-5 text-muted-foreground" />
         </div>
         <div className="grid grid-cols-2 gap-3">
-          {featuredServices.map((service) => (
+          {parallelServices.map((service) => (
             <button
               key={service.id}
               onClick={() => onProductClick?.(service)}
@@ -233,6 +274,43 @@ export default function HomePage({ onProductClick, onWorkerClick, onInstitutionC
               />
               <div className="p-3">
                 <h3 className="text-sm font-medium text-foreground line-clamp-1">{service.name}</h3>
+                <p className="text-primary font-bold mt-1">{getAdjustedPrice(service.price)}</p>
+              </div>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* 热门服务 */}
+      <div className="px-4 mt-4">
+        <div className="flex items-center justify-between mb-3">
+          <h2 className="text-base font-bold text-foreground">热门服务</h2>
+          <ChevronRight className="w-5 h-5 text-muted-foreground" />
+        </div>
+        <div className="space-y-3">
+          {hotServices.map((service) => (
+            <button
+              key={service.id}
+              onClick={() => onProductClick?.(service)}
+              className="w-full bg-card rounded-2xl overflow-hidden shadow-sm flex text-left"
+            >
+              <img
+                src={service.image}
+                alt={service.name}
+                className="w-24 h-24 object-cover flex-shrink-0"
+              />
+              <div className="p-3 flex-1">
+                <h3 className="text-sm font-medium text-foreground line-clamp-1">{service.name}</h3>
+                <span className="text-xs text-muted-foreground bg-muted px-2 py-0.5 rounded inline-block mt-1">
+                  {service.spec}
+                </span>
+                <div className="flex items-center gap-2 text-xs mt-2">
+                  <span className="flex items-center gap-0.5">
+                    <Star className="w-3.5 h-3.5 fill-yellow-400 text-yellow-400" />
+                    {service.rating}
+                  </span>
+                  <span className="text-muted-foreground">已售 {service.sold}</span>
+                </div>
                 <p className="text-primary font-bold mt-1">{getAdjustedPrice(service.price)}</p>
               </div>
             </button>

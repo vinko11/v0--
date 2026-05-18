@@ -15,6 +15,7 @@ const categories = [
   { id: "health", label: "慢病监测" },
   { id: "renovation", label: "适老改造" },
   { id: "warm", label: "暖心服务" },
+  { id: "psychology", label: "心理健康" },
   { id: "more", label: "更多服务" },
 ]
 
@@ -73,6 +74,12 @@ const allProducts: Record<string, any[]> = {
     { id: 31, image: "https://images.unsplash.com/photo-1544027993-37dbfe43562a?w=300&h=300&fit=crop", name: "陪聊陪伴服务", spec: "2小时/次", rating: 99, price: 50 },
     { id: 32, image: "https://images.unsplash.com/photo-1516321497487-e288fb19713f?w=300&h=300&fit=crop", name: "代购跑腿服务", spec: "单次", rating: 98, price: 30 },
     { id: 33, image: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=300&h=300&fit=crop", name: "节日探访服务", spec: "单次", rating: 97, price: 100 },
+  ],
+  psychology: [
+    { id: 37, image: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=300&h=300&fit=crop", name: "心理疏导【线上】", spec: "1小时/次", rating: 99, price: 150 },
+    { id: 38, image: "https://images.unsplash.com/photo-1544027993-37dbfe43562a?w=300&h=300&fit=crop", name: "情绪管理咨询", spec: "1.5小时/次", rating: 98, price: 200 },
+    { id: 39, image: "https://images.unsplash.com/photo-1516321497487-e288fb19713f?w=300&h=300&fit=crop", name: "睡眠障碍调理", spec: "整体方案", rating: 97, price: 500 },
+    { id: 40, image: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=300&h=300&fit=crop", name: "认知功能训练", spec: "10次/疗程", rating: 99, price: 800 },
   ],
   more: [
     { id: 34, image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300&h=300&fit=crop", name: "定制化护理方案", spec: "按需定制", rating: 99, price: 0 },

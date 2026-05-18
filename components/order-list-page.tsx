@@ -1,7 +1,8 @@
 "use client"
 
 import { useState } from "react"
-import { ChevronLeft, Clock, Truck, CheckCircle, Star, RotateCcw, Phone } from "lucide-react"
+import { ChevronLeft, Clock, Truck, CheckCircle, Star, RotateCcw, Phone, Check } from "lucide-react"
+import OrderDetailPage from "./order-detail-page"
 
 interface OrderListPageProps {
   onBack: () => void
@@ -16,6 +17,7 @@ const tabs = [
   { id: "unreviewed", label: "未评价" },
   { id: "reviewed", label: "已评价" },
   { id: "refunding", label: "退款中" },
+  { id: "refunded", label: "已退款" },
 ]
 
 const orders = [
@@ -52,6 +54,28 @@ const orders = [
     date: "2024-01-18 10:00-12:00",
     price: "¥150",
   },
+  {
+    id: "QL202401050004",
+    status: "reviewed",
+    statusText: "已评价",
+    statusColor: "#ec4899",
+    service: "保洁服务",
+    worker: "刘阿姨",
+    workerImage: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=100&h=100&fit=crop",
+    date: "2024-01-05 14:00-18:00",
+    price: "¥168",
+  },
+  {
+    id: "QL202312200005",
+    status: "refunded",
+    statusText: "已退款",
+    statusColor: "#6b7280",
+    service: "陪诊就医",
+    worker: "陈医生",
+    workerImage: "https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=100&h=100&fit=crop",
+    date: "2023-12-25 09:00-13:00",
+    price: "¥180",
+  },
 ]
 
 const getStatusIcon = (status: string) => {
@@ -62,16 +86,28 @@ const getStatusIcon = (status: string) => {
     case "unreviewed": return Star
     case "reviewed": return Star
     case "refunding": return RotateCcw
+    case "refunded": return Check
     default: return Clock
   }
 }
 
 export default function OrderListPage({ onBack, initialTab = "all" }: OrderListPageProps) {
   const [activeTab, setActiveTab] = useState(initialTab)
+  const [selectedOrder, setSelectedOrder] = useState<typeof orders[0] | null>(null)
 
   const filteredOrders = activeTab === "all" 
     ? orders 
     : orders.filter(order => order.status === activeTab)
+
+  // 显示订单详情页
+  if (selectedOrder) {
+    return (
+      <OrderDetailPage
+        onBack={() => setSelectedOrder(null)}
+        order={selectedOrder}
+      />
+    )
+  }
 
   return (
     <div className="min-h-screen bg-background pb-6">
@@ -117,7 +153,11 @@ export default function OrderListPage({ onBack, initialTab = "all" }: OrderListP
           filteredOrders.map((order) => {
             const StatusIcon = getStatusIcon(order.status)
             return (
-              <div key={order.id} className="bg-card rounded-2xl shadow-sm overflow-hidden">
+              <button 
+                key={order.id} 
+                onClick={() => setSelectedOrder(order)}
+                className="w-full bg-card rounded-2xl shadow-sm overflow-hidden text-left"
+              >
                 {/* Order Header */}
                 <div className="px-4 py-3 border-b border-border flex items-center justify-between">
                   <span className="text-xs text-muted-foreground">订单号: {order.id}</span>
@@ -175,8 +215,18 @@ export default function OrderListPage({ onBack, initialTab = "all" }: OrderListP
                       </button>
                     </>
                   )}
+                  {order.status === "reviewed" && (
+                    <button className="px-4 py-1.5 text-xs border border-border rounded-lg text-muted-foreground">
+                      查看详情
+                    </button>
+                  )}
+                  {order.status === "refunded" && (
+                    <button className="px-4 py-1.5 text-xs border border-border rounded-lg text-muted-foreground">
+                      查看详情
+                    </button>
+                  )}
                 </div>
-              </div>
+              </button>
             )
           })
         )}

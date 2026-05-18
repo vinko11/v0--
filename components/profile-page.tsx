@@ -1,6 +1,6 @@
 "use client"
 
-import { Settings, Wallet, Gift, CreditCard, Clock, CheckCircle, RotateCcw, XCircle, FileText, MapPin, Headphones, Info, ChevronRight } from "lucide-react"
+import { Settings, Wallet, Gift, CreditCard, Clock, CheckCircle, RotateCcw, XCircle, FileText, MapPin, Headphones, Info, ChevronRight, Building2, Users, TrendingUp } from "lucide-react"
 
 const orderStatuses = [
   { icon: Clock, label: "待付款", color: "#f59e0b" },
@@ -10,6 +10,9 @@ const orderStatuses = [
 ]
 
 const tools = [
+  { icon: Building2, label: "机构入驻" },
+  { icon: Users, label: "服务人员入驻" },
+  { icon: TrendingUp, label: "推荐得积分" },
   { icon: MapPin, label: "我的地址" },
   { icon: FileText, label: "服务协议" },
   { icon: Headphones, label: "联系客服" },

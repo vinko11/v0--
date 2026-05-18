@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Star, ChevronLeft } from "lucide-react"
+import { Star, ChevronLeft, Search } from "lucide-react"
 
 const categories = [
   { id: "home", label: "居家护工" },
@@ -59,6 +59,11 @@ const products = [
 
 export default function CategoryPage() {
   const [activeCategory, setActiveCategory] = useState("home")
+  const [searchQuery, setSearchQuery] = useState("")
+
+  const filteredProducts = products.filter((product) =>
+    product.name.toLowerCase().includes(searchQuery.toLowerCase())
+  )
 
   return (
     <div className="min-h-screen bg-background flex">
@@ -88,13 +93,24 @@ export default function CategoryPage() {
       {/* Right Content */}
       <div className="flex-1 pb-20">
         <div className="bg-gradient-to-b from-[#71F2DC] to-[#4DD8CD] px-4 py-4">
-          <h2 className="text-white font-medium">
+          <h2 className="text-white font-medium mb-3">
             {categories.find((c) => c.id === activeCategory)?.label}
           </h2>
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/60" />
+            <input
+              type="text"
+              placeholder="搜索产品..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full bg-white/20 backdrop-blur-sm text-white placeholder:text-white/50 rounded-full px-4 py-2.5 pl-10 text-sm outline-none border border-white/30 focus:border-white/60 transition-colors"
+            />
+          </div>
         </div>
 
         <div className="p-3 space-y-3">
-          {products.map((product) => (
+          {filteredProducts.length > 0 ? (
+            filteredProducts.map((product) => (
             <div key={product.id} className="bg-card rounded-2xl overflow-hidden shadow-sm flex">
               <img
                 src={product.image}
@@ -124,7 +140,12 @@ export default function CategoryPage() {
                 </div>
               </div>
             </div>
-          ))}
+            ))
+          ) : (
+            <div className="flex items-center justify-center py-12">
+              <p className="text-muted-foreground text-sm">未找到相关产品</p>
+            </div>
+          )}
         </div>
       </div>
     </div>

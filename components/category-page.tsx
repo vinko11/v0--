@@ -106,15 +106,7 @@ export default function CategoryPage({ onProductClick, onBack, initialCategory }
     <div className="min-h-screen bg-background flex">
       {/* Left Sidebar */}
       <div className="w-[22%] bg-card border-r border-border">
-        <div className="bg-gradient-to-b from-[#71F2DC] to-[#4DD8CD] px-3 py-4 flex items-center gap-2">
-          {onBack && (
-            <button onClick={onBack}>
-              <ChevronLeft className="w-5 h-5 text-white" />
-            </button>
-          )}
-          <span className="text-white font-medium">分类</span>
-        </div>
-        <div className="py-2 overflow-y-auto" style={{ maxHeight: "calc(100vh - 60px)" }}>
+        <div className="py-2 overflow-y-auto" style={{ maxHeight: "100vh" }}>
           {categories.map((cat) => (
             <button
               key={cat.id}

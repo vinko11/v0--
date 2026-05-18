@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { ChevronLeft, Plus, Clock, CheckCircle, Users, XCircle, AlertCircle } from "lucide-react"
+import { ChevronLeft, Plus, Clock, CheckCircle, Users, XCircle, AlertCircle, CreditCard } from "lucide-react"
 
 interface DemandListPageProps {
   onBack?: () => void
@@ -17,6 +17,12 @@ const statusConfig = {
   rejected: { label: "已拒绝", color: "#ef4444", icon: XCircle, bgColor: "#fee2e2" },
 }
 
+const paymentConfig = {
+  paid: { label: "已支付", color: "#10b981", icon: CheckCircle, bgColor: "#d1fae5" },
+  unpaid: { label: "未支付", color: "#ef4444", icon: CreditCard, bgColor: "#fee2e2" },
+  pending: { label: "支付中", color: "#f59e0b", icon: Clock, bgColor: "#fef3c7" },
+}
+
 const mockDemands = [
   {
     id: 1,
@@ -28,6 +34,7 @@ const mockDemands = [
     createdAt: "2024-01-15",
     address: "南京市建邺区江东中路388号",
     acceptedBy: "李护士",
+    paymentStatus: "paid",
   },
   {
     id: 2,
@@ -38,6 +45,7 @@ const mockDemands = [
     price: "¥150/次",
     createdAt: "2024-01-18",
     address: "南京市鼓楼区中央路201号",
+    paymentStatus: "unpaid",
   },
   {
     id: 3,
@@ -49,6 +57,7 @@ const mockDemands = [
     createdAt: "2024-01-10",
     address: "南京市玄武区珠江路88号",
     acceptedBy: "张阿姨",
+    paymentStatus: "paid",
   },
   {
     id: 4,
@@ -60,6 +69,7 @@ const mockDemands = [
     createdAt: "2024-01-20",
     address: "南京市秦淮区中山南路1号",
     acceptedBy: "王医生",
+    paymentStatus: "paid",
   },
   {
     id: 5,
@@ -71,6 +81,7 @@ const mockDemands = [
     createdAt: "2024-01-08",
     address: "南京市栖霞区仙林大道100号",
     rejectReason: "该区域暂无服务",
+    paymentStatus: "unpaid",
   },
 ]
 
@@ -159,10 +170,28 @@ export default function DemandListPage({ onBack, onDemandClick, onNewDemand }: D
                 <p className="text-sm text-muted-foreground line-clamp-2 mb-3">
                   {demand.content}
                 </p>
-                <div className="flex items-center justify-between text-xs">
+                <div className="flex items-center justify-between text-xs mb-2">
                   <span className="text-muted-foreground">{demand.createdAt}</span>
                   <span className="text-primary font-bold">{demand.price}</span>
                 </div>
+                {/* Payment Status */}
+                {demand.paymentStatus && (
+                  <div className="flex items-center gap-2">
+                    {(() => {
+                      const payment = paymentConfig[demand.paymentStatus as keyof typeof paymentConfig]
+                      const PaymentIcon = payment.icon
+                      return (
+                        <div
+                          className="flex items-center gap-1 px-2 py-0.5 rounded text-xs"
+                          style={{ backgroundColor: payment.bgColor, color: payment.color }}
+                        >
+                          <PaymentIcon className="w-3 h-3" />
+                          {payment.label}
+                        </div>
+                      )
+                    })()}
+                  </div>
+                )}
                 {demand.acceptedBy && (
                   <div className="mt-2 pt-2 border-t border-border flex items-center gap-2">
                     <Users className="w-3.5 h-3.5 text-muted-foreground" />

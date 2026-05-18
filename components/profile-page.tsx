@@ -1,12 +1,15 @@
 "use client"
 
-import { Settings, Wallet, Gift, CreditCard, Clock, CheckCircle, RotateCcw, XCircle, FileText, MapPin, Headphones, Info, ChevronRight, Building2, Users, TrendingUp } from "lucide-react"
+import { Settings, Wallet, Gift, CreditCard, Clock, CheckCircle, RotateCcw, XCircle, FileText, MapPin, Headphones, Info, ChevronRight, Building2, Users, TrendingUp, ShoppingCart, Truck, Star } from "lucide-react"
 
 const orderStatuses = [
+  { icon: ShoppingCart, label: "全部订单", color: "#6b7280" },
   { icon: Clock, label: "待付款", color: "#f59e0b" },
-  { icon: RotateCcw, label: "进行中", color: "#3b82f6" },
-  { icon: CheckCircle, label: "已完成", color: "#10b981" },
-  { icon: XCircle, label: "退款", color: "#ef4444" },
+  { icon: Truck, label: "派单中", color: "#3b82f6" },
+  { icon: CheckCircle, label: "已派单", color: "#10b981" },
+  { icon: Star, label: "未评价", color: "#a855f7" },
+  { icon: Star, label: "已评价", color: "#ec4899" },
+  { icon: RotateCcw, label: "退款中", color: "#ef4444" },
 ]
 
 const tools = [
@@ -80,14 +83,14 @@ export default function ProfilePage() {
         </div>
         <div className="grid grid-cols-4 gap-2">
           {orderStatuses.map((status, index) => (
-            <button key={index} className="flex flex-col items-center gap-2">
+            <button key={index} className="flex flex-col items-center gap-1.5">
               <div
                 className="w-10 h-10 rounded-full flex items-center justify-center"
                 style={{ backgroundColor: `${status.color}15` }}
               >
                 <status.icon className="w-5 h-5" style={{ color: status.color }} />
               </div>
-              <span className="text-xs text-foreground">{status.label}</span>
+              <span className="text-xs text-foreground text-center line-clamp-2">{status.label}</span>
             </button>
           ))}
         </div>

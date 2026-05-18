@@ -1,6 +1,6 @@
 "use client"
 
-import { ChevronLeft, Settings as SettingsIcon, ChevronRight, Bell, Lock, Globe, Trash2, LogOut } from "lucide-react"
+import { ChevronLeft, Settings as SettingsIcon, ChevronRight, Bell, Lock, Trash2, LogOut } from "lucide-react"
 
 interface SettingsPageProps {
   onBack: () => void
@@ -9,7 +9,6 @@ interface SettingsPageProps {
 const settingItems = [
   { icon: Bell, label: "消息通知", desc: "管理推送通知设置", color: "#f59e0b" },
   { icon: Lock, label: "账户安全", desc: "密码、手机号管理", color: "#3b82f6" },
-  { icon: Globe, label: "语言设置", desc: "简体中文", color: "#10b981" },
   { icon: Trash2, label: "清除缓存", desc: "12.5 MB", color: "#6b7280" },
 ]
 

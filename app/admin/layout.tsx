@@ -6,7 +6,7 @@ import Link from "next/link"
 import { 
   LayoutDashboard, Users, Package, ShoppingCart, FileText, UserCheck, Building2, 
   ClipboardCheck, Bell, Ticket, ShoppingBag, Activity, Home, LogOut, ChevronRight,
-  Menu, X
+  Menu, X, Map
 } from "lucide-react"
 
 const menuItems = [
@@ -18,6 +18,7 @@ const menuItems = [
   { icon: UserCheck, label: "服务人员", href: "/admin/workers", badge: null },
   { icon: Building2, label: "服务商/机构", href: "/admin/providers", badge: null },
   { icon: ClipboardCheck, label: "入驻审核", href: "/admin/applications", badge: "5" },
+  { icon: Map, label: "入驻地图", href: "/admin/provider-map", badge: null },
   { divider: true, label: "运营管理" },
   { icon: Bell, label: "公告管理", href: "/admin/announcements", badge: null },
   { icon: Ticket, label: "优惠券/活动", href: "/admin/coupons", badge: null },

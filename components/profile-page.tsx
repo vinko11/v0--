@@ -196,6 +196,17 @@ export default function ProfilePage() {
           ))}
         </div>
       </div>
+
+      {/* 管理后台入口 */}
+      <div className="mx-4 mt-4 mb-4 text-center">
+        <a 
+          href="/admin" 
+          target="_blank"
+          className="text-xs text-muted-foreground hover:text-primary underline"
+        >
+          管理后台（演示）
+        </a>
+      </div>
     </div>
   )
 }

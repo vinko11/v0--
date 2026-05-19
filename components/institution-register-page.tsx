@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { ChevronLeft, Building2, Upload, Camera, MapPin, ChevronDown, Check, Navigation } from "lucide-react"
+import { ChevronLeft, Building2, Upload, Camera, MapPin, ChevronDown, Check, Navigation, Clock, CheckCircle } from "lucide-react"
 
 interface InstitutionRegisterPageProps {
   onBack: () => void
@@ -91,6 +91,7 @@ export default function InstitutionRegisterPage({ onBack }: InstitutionRegisterP
   const [agreeAgreement, setAgreeAgreement] = useState(false)
   const [introduction, setIntroduction] = useState("")
   const [isLocating, setIsLocating] = useState(false)
+  const [isSubmitted, setIsSubmitted] = useState(false) // 提交审核状态
 
   const availableCities = selectedProvince ? locationData.cities[selectedProvince] || [] : []
   const availableDistricts = selectedCity ? locationData.districts[selectedCity] || [] : []
@@ -116,6 +117,69 @@ export default function InstitutionRegisterPage({ onBack }: InstitutionRegisterP
   const handleCityChange = (city: string) => {
     setSelectedCity(city)
     setSelectedDistrict("")
+  }
+
+  const handleSubmit = () => {
+    if (!agreeAgreement || !institutionName || !contactPerson || !contactPhone || !selectedCategory) {
+      alert("请填写完整信息并同意入驻协议")
+      return
+    }
+    setIsSubmitted(true)
+  }
+
+  // 审核中页面
+  if (isSubmitted) {
+    return (
+      <div className="min-h-screen bg-background flex flex-col items-center justify-center px-6">
+        <div className="w-24 h-24 rounded-full bg-yellow-100 flex items-center justify-center mb-6">
+          <Clock className="w-12 h-12 text-yellow-500" />
+        </div>
+        <h1 className="text-xl font-bold text-foreground mb-2">提交成功，审核中</h1>
+        <p className="text-sm text-muted-foreground text-center mb-2">
+          您的入驻申请已提交，工作人员将在1-3个工作日内完成审核
+        </p>
+        <p className="text-xs text-muted-foreground mb-8">
+          审核结果将通过短信通知，请保持手机畅通
+        </p>
+        
+        <div className="w-full bg-card rounded-2xl p-4 shadow-sm mb-6">
+          <h3 className="font-medium text-foreground mb-3">申请信息</h3>
+          <div className="space-y-2 text-sm">
+            <div className="flex justify-between">
+              <span className="text-muted-foreground">机构名称</span>
+              <span className="text-foreground">{institutionName}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-muted-foreground">联系人</span>
+              <span className="text-foreground">{contactPerson}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-muted-foreground">联系电话</span>
+              <span className="text-foreground">{contactPhone}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-muted-foreground">审核状态</span>
+              <span className="text-yellow-500 font-medium">审核中</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="flex gap-3 w-full">
+          <button
+            onClick={onBack}
+            className="flex-1 py-3 rounded-full border border-border text-foreground font-medium text-sm"
+          >
+            返回首页
+          </button>
+          <button
+            onClick={() => setIsSubmitted(false)}
+            className="flex-1 py-3 rounded-full bg-gradient-to-r from-[#71F2DC] to-[#4DD8CD] text-white font-medium text-sm"
+          >
+            修改申请
+          </button>
+        </div>
+      </div>
+    )
   }
 
   return (
@@ -338,6 +402,7 @@ export default function InstitutionRegisterPage({ onBack }: InstitutionRegisterP
 
         {/* Submit Button */}
         <button
+          onClick={handleSubmit}
           disabled={!agreeAgreement || !institutionName || !contactPerson || !contactPhone}
           className="w-full bg-gradient-to-r from-[#71F2DC] to-[#4DD8CD] text-white font-medium py-3.5 rounded-xl shadow-lg hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
         >

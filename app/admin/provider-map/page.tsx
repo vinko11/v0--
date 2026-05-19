@@ -205,55 +205,126 @@ export default function ProviderMapPage() {
           </h3>
           
           {viewLevel === "province" ? (
-            // 中国地图地理位置布局 (9行7列)
-            <div className="grid gap-2" style={{ gridTemplateColumns: 'repeat(7, minmax(0, 1fr))', gridAutoRows: 'auto' }}>
-              {/* 第1行：新疆、内蒙古、黑龙江 */}
-              <div className="col-span-1 row-span-1" />
-              <ProvinceTile key="xinjiang" id="xinjiang" data={provinceData.xinjiang} selected={selectedProvince === "xinjiang"} onClick={() => setSelectedProvince("xinjiang")} />
-              <div className="col-span-2" />
-              <ProvinceTile key="neimenggu" id="neimenggu" data={provinceData.neimenggu} selected={selectedProvince === "neimenggu"} onClick={() => setSelectedProvince("neimenggu")} />
-              <div className="col-span-2" />
-              <ProvinceTile key="heilongjiang" id="heilongjiang" data={provinceData.heilongjiang} selected={selectedProvince === "heilongjiang"} onClick={() => setSelectedProvince("heilongjiang")} />
+            // 中国地图有机布局 - 模仿地理位置的散布风格
+            <div className="flex flex-wrap gap-3 justify-center">
+              {/* 西北地区 - 第一组 */}
+              <div className="w-1/4 flex justify-center">
+                <ProvinceTile key="xinjiang" id="xinjiang" data={provinceData.xinjiang} selected={selectedProvince === "xinjiang"} onClick={() => setSelectedProvince("xinjiang")} />
+              </div>
+              <div className="w-1/4" />
+              <div className="w-1/4 flex justify-center">
+                <ProvinceTile key="neimenggu" id="neimenggu" data={provinceData.neimenggu} selected={selectedProvince === "neimenggu"} onClick={() => setSelectedProvince("neimenggu")} />
+              </div>
+              <div className="w-1/4" />
 
-              {/* 第2行：西藏、青海、甘肃、宁夏、陕西、山西、河北 */}
-              <ProvinceTile key="xizang" id="xizang" data={provinceData.xizang} selected={selectedProvince === "xizang"} onClick={() => setSelectedProvince("xizang")} />
-              <ProvinceTile key="qinghai" id="qinghai" data={provinceData.qinghai} selected={selectedProvince === "qinghai"} onClick={() => setSelectedProvince("qinghai")} />
-              <ProvinceTile key="gansu" id="gansu" data={provinceData.gansu} selected={selectedProvince === "gansu"} onClick={() => setSelectedProvince("gansu")} />
-              <ProvinceTile key="ningxia" id="ningxia" data={provinceData.ningxia} selected={selectedProvince === "ningxia"} onClick={() => setSelectedProvince("ningxia")} />
-              <ProvinceTile key="shaanxi" id="shaanxi" data={provinceData.shaanxi} selected={selectedProvince === "shaanxi"} onClick={() => setSelectedProvince("shaanxi")} />
-              <ProvinceTile key="shanxi" id="shanxi" data={provinceData.shanxi} selected={selectedProvince === "shanxi"} onClick={() => setSelectedProvince("shanxi")} />
-              <ProvinceTile key="hebei" id="hebei" data={provinceData.hebei} selected={selectedProvince === "hebei"} onClick={() => setSelectedProvince("hebei")} />
+              {/* 第二行 */}
+              <div className="w-1/5 flex justify-center">
+                <ProvinceTile key="xizang" id="xizang" data={provinceData.xizang} selected={selectedProvince === "xizang"} onClick={() => setSelectedProvince("xizang")} />
+              </div>
+              <div className="w-1/5 flex justify-center">
+                <ProvinceTile key="qinghai" id="qinghai" data={provinceData.qinghai} selected={selectedProvince === "qinghai"} onClick={() => setSelectedProvince("qinghai")} />
+              </div>
+              <div className="w-1/5 flex justify-center">
+                <ProvinceTile key="gansu" id="gansu" data={provinceData.gansu} selected={selectedProvince === "gansu"} onClick={() => setSelectedProvince("gansu")} />
+              </div>
+              <div className="w-1/5 flex justify-center">
+                <ProvinceTile key="ningxia" id="ningxia" data={provinceData.ningxia} selected={selectedProvince === "ningxia"} onClick={() => setSelectedProvince("ningxia")} />
+              </div>
+              <div className="w-1/5 flex justify-center">
+                <ProvinceTile key="shaanxi" id="shaanxi" data={provinceData.shaanxi} selected={selectedProvince === "shaanxi"} onClick={() => setSelectedProvince("shaanxi")} />
+              </div>
 
-              {/* 第3行：云南、贵州、四川、重庆、湖北、河南、山东、北京、天津 */}
-              <ProvinceTile key="yunnan" id="yunnan" data={provinceData.yunnan} selected={selectedProvince === "yunnan"} onClick={() => setSelectedProvince("yunnan")} />
-              <div className="col-span-1" />
-              <ProvinceTile key="guizhou" id="guizhou" data={provinceData.guizhou} selected={selectedProvince === "guizhou"} onClick={() => setSelectedProvince("guizhou")} />
-              <ProvinceTile key="sichuan" id="sichuan" data={provinceData.sichuan} selected={selectedProvince === "sichuan"} onClick={() => setSelectedProvince("sichuan")} />
-              <ProvinceTile key="chongqing" id="chongqing" data={provinceData.chongqing} selected={selectedProvince === "chongqing"} onClick={() => setSelectedProvince("chongqing")} />
-              <ProvinceTile key="hubei" id="hubei" data={provinceData.hubei} selected={selectedProvince === "hubei"} onClick={() => setSelectedProvince("hubei")} />
-              <ProvinceTile key="henan" id="henan" data={provinceData.henan} selected={selectedProvince === "henan"} onClick={() => setSelectedProvince("henan")} />
+              {/* 第三行 */}
+              <div className="w-1/6 flex justify-center">
+                <ProvinceTile key="yunnan" id="yunnan" data={provinceData.yunnan} selected={selectedProvince === "yunnan"} onClick={() => setSelectedProvince("yunnan")} />
+              </div>
+              <div className="w-1/6 flex justify-center">
+                <ProvinceTile key="guizhou" id="guizhou" data={provinceData.guizhou} selected={selectedProvince === "guizhou"} onClick={() => setSelectedProvince("guizhou")} />
+              </div>
+              <div className="w-1/6" />
+              <div className="w-1/6 flex justify-center">
+                <ProvinceTile key="sichuan" id="sichuan" data={provinceData.sichuan} selected={selectedProvince === "sichuan"} onClick={() => setSelectedProvince("sichuan")} />
+              </div>
+              <div className="w-1/6 flex justify-center">
+                <ProvinceTile key="chongqing" id="chongqing" data={provinceData.chongqing} selected={selectedProvince === "chongqing"} onClick={() => setSelectedProvince("chongqing")} />
+              </div>
+              <div className="w-1/6" />
 
-              {/* 第4行：广西、湖南、江西、福建、浙江、江苏、上海 */}
-              <div className="col-span-1" />
-              <ProvinceTile key="guangxi" id="guangxi" data={provinceData.guangxi} selected={selectedProvince === "guangxi"} onClick={() => setSelectedProvince("guangxi")} />
-              <ProvinceTile key="hunan" id="hunan" data={provinceData.hunan} selected={selectedProvince === "hunan"} onClick={() => setSelectedProvince("hunan")} />
-              <ProvinceTile key="jiangxi" id="jiangxi" data={provinceData.jiangxi} selected={selectedProvince === "jiangxi"} onClick={() => setSelectedProvince("jiangxi")} />
-              <ProvinceTile key="fujian" id="fujian" data={provinceData.fujian} selected={selectedProvince === "fujian"} onClick={() => setSelectedProvince("fujian")} />
-              <ProvinceTile key="zhejiang" id="zhejiang" data={provinceData.zhejiang} selected={selectedProvince === "zhejiang"} onClick={() => setSelectedProvince("zhejiang")} />
-              <ProvinceTile key="jiangsu" id="jiangsu" data={provinceData.jiangsu} selected={selectedProvince === "jiangsu"} onClick={() => setSelectedProvince("jiangsu")} />
-              <ProvinceTile key="shanghai" id="shanghai" data={provinceData.shanghai} selected={selectedProvince === "shanghai"} onClick={() => setSelectedProvince("shanghai")} />
+              {/* 第四行 */}
+              <div className="w-1/6 flex justify-center">
+                <ProvinceTile key="hubei" id="hubei" data={provinceData.hubei} selected={selectedProvince === "hubei"} onClick={() => setSelectedProvince("hubei")} />
+              </div>
+              <div className="w-1/6 flex justify-center">
+                <ProvinceTile key="yunnan2" id="yunnan" data={provinceData.yunnan} selected={selectedProvince === "yunnan"} onClick={() => setSelectedProvince("yunnan")} />
+              </div>
+              <div className="w-1/6" />
+              <div className="w-1/6 flex justify-center">
+                <ProvinceTile key="guizhou2" id="guizhou" data={provinceData.guizhou} selected={selectedProvince === "guizhou"} onClick={() => setSelectedProvince("guizhou")} />
+              </div>
+              <div className="w-1/6 flex justify-center">
+                <ProvinceTile key="hunan" id="hunan" data={provinceData.hunan} selected={selectedProvince === "hunan"} onClick={() => setSelectedProvince("hunan")} />
+              </div>
+              <div className="w-1/6 flex justify-center">
+                <ProvinceTile key="guangxi" id="guangxi" data={provinceData.guangxi} selected={selectedProvince === "guangxi"} onClick={() => setSelectedProvince("guangxi")} />
+              </div>
 
-              {/* 第5行：广东、海南、山东、辽宁、吉林 */}
-              <div className="col-span-2" />
-              <ProvinceTile key="guangdong" id="guangdong" data={provinceData.guangdong} selected={selectedProvince === "guangdong"} onClick={() => setSelectedProvince("guangdong")} />
-              <div className="col-span-1" />
-              <ProvinceTile key="shandong" id="shandong" data={provinceData.shandong} selected={selectedProvince === "shandong"} onClick={() => setSelectedProvince("shandong")} />
-              <ProvinceTile key="liaoning" id="liaoning" data={provinceData.liaoning} selected={selectedProvince === "liaoning"} onClick={() => setSelectedProvince("liaoning")} />
-              <ProvinceTile key="jilin" id="jilin" data={provinceData.jilin} selected={selectedProvince === "jilin"} onClick={() => setSelectedProvince("jilin")} />
+              {/* 第五行 - 东部沿海 */}
+              <div className="w-1/6 flex justify-center">
+                <ProvinceTile key="henan" id="henan" data={provinceData.henan} selected={selectedProvince === "henan"} onClick={() => setSelectedProvince("henan")} />
+              </div>
+              <div className="w-1/6 flex justify-center">
+                <ProvinceTile key="jiangxi" id="jiangxi" data={provinceData.jiangxi} selected={selectedProvince === "jiangxi"} onClick={() => setSelectedProvince("jiangxi")} />
+              </div>
+              <div className="w-1/6 flex justify-center">
+                <ProvinceTile key="hunan2" id="hunan" data={provinceData.hunan} selected={selectedProvince === "hunan"} onClick={() => setSelectedProvince("hunan")} />
+              </div>
+              <div className="w-1/6 flex justify-center">
+                <ProvinceTile key="fujian" id="fujian" data={provinceData.fujian} selected={selectedProvince === "fujian"} onClick={() => setSelectedProvince("fujian")} />
+              </div>
+              <div className="w-1/6 flex justify-center">
+                <ProvinceTile key="zhejiang" id="zhejiang" data={provinceData.zhejiang} selected={selectedProvince === "zhejiang"} onClick={() => setSelectedProvince("zhejiang")} />
+              </div>
+              <div className="w-1/6" />
 
-              {/* 第6行：海南 */}
-              <div className="col-span-2" />
-              <ProvinceTile key="hainan" id="hainan" data={provinceData.hainan} selected={selectedProvince === "hainan"} onClick={() => setSelectedProvince("hainan")} />
+              {/* 第六行 - 南方 */}
+              <div className="w-1/5" />
+              <div className="w-1/5 flex justify-center">
+                <ProvinceTile key="guangdong" id="guangdong" data={provinceData.guangdong} selected={selectedProvince === "guangdong"} onClick={() => setSelectedProvince("guangdong")} />
+              </div>
+              <div className="w-1/5 flex justify-center">
+                <ProvinceTile key="jiangsu" id="jiangsu" data={provinceData.jiangsu} selected={selectedProvince === "jiangsu"} onClick={() => setSelectedProvince("jiangsu")} />
+              </div>
+              <div className="w-1/5 flex justify-center">
+                <ProvinceTile key="shanghai" id="shanghai" data={provinceData.shanghai} selected={selectedProvince === "shanghai"} onClick={() => setSelectedProvince("shanghai")} />
+              </div>
+              <div className="w-1/5" />
+
+              {/* 第七行 - 北部 */}
+              <div className="w-1/7" />
+              <div className="w-1/7 flex justify-center">
+                <ProvinceTile key="shanxi" id="shanxi" data={provinceData.shanxi} selected={selectedProvince === "shanxi"} onClick={() => setSelectedProvince("shanxi")} />
+              </div>
+              <div className="w-1/7 flex justify-center">
+                <ProvinceTile key="hebei" id="hebei" data={provinceData.hebei} selected={selectedProvince === "hebei"} onClick={() => setSelectedProvince("hebei")} />
+              </div>
+              <div className="w-1/7 flex justify-center">
+                <ProvinceTile key="shandong" id="shandong" data={provinceData.shandong} selected={selectedProvince === "shandong"} onClick={() => setSelectedProvince("shandong")} />
+              </div>
+              <div className="w-1/7 flex justify-center">
+                <ProvinceTile key="liaoning" id="liaoning" data={provinceData.liaoning} selected={selectedProvince === "liaoning"} onClick={() => setSelectedProvince("liaoning")} />
+              </div>
+              <div className="w-1/7 flex justify-center">
+                <ProvinceTile key="jilin" id="jilin" data={provinceData.jilin} selected={selectedProvince === "jilin"} onClick={() => setSelectedProvince("jilin")} />
+              </div>
+              <div className="w-1/7 flex justify-center">
+                <ProvinceTile key="heilongjiang" id="heilongjiang" data={provinceData.heilongjiang} selected={selectedProvince === "heilongjiang"} onClick={() => setSelectedProvince("heilongjiang")} />
+              </div>
+
+              {/* 第八行 - 海岛 */}
+              <div className="w-1/3" />
+              <div className="w-1/3 flex justify-center">
+                <ProvinceTile key="hainan" id="hainan" data={provinceData.hainan} selected={selectedProvince === "hainan"} onClick={() => setSelectedProvince("hainan")} />
+              </div>
             </div>
           ) : (
             // 城市级网格地图

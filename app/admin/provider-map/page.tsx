@@ -62,6 +62,37 @@ const levelColors = {
   none: { bg: "#ef4444", text: "尚未入驻", description: "机构0，急需拓展" },
 }
 
+// 省份卡片组件
+interface ProvinceTileProps {
+  id: string
+  data: { name: string; providers: number; workers: number; orders: number; level: "high" | "medium" | "low" | "none" }
+  selected: boolean
+  onClick: () => void
+}
+
+function ProvinceTile({ id, data, selected, onClick }: ProvinceTileProps) {
+  return (
+    <button
+      onClick={onClick}
+      className={`p-3 rounded-lg text-center transition-all hover:scale-105 aspect-square flex flex-col items-center justify-center ${
+        selected ? "ring-2 ring-offset-2" : ""
+      }`}
+      style={{
+        backgroundColor: levelColors[data.level].bg + "20",
+        borderColor: levelColors[data.level].bg,
+        ringColor: levelColors[data.level].bg,
+      }}
+    >
+      <div 
+        className="w-3 h-3 rounded-full mb-1"
+        style={{ backgroundColor: levelColors[data.level].bg }}
+      />
+      <p className="text-xs font-medium text-gray-700">{data.name}</p>
+      <p className="text-xs text-gray-500">{data.providers}家</p>
+    </button>
+  )
+}
+
 export default function ProviderMapPage() {
   const [selectedProvince, setSelectedProvince] = useState<string | null>(null)
   const [viewLevel, setViewLevel] = useState<"province" | "city">("province")
@@ -174,25 +205,55 @@ export default function ProviderMapPage() {
           </h3>
           
           {viewLevel === "province" ? (
-            // 省级网格地图
-            <div className="grid grid-cols-6 gap-2">
-              {Object.entries(provinceData).map(([key, province]) => (
-                <button
-                  key={key}
-                  onClick={() => setSelectedProvince(key)}
-                  className={`p-3 rounded-lg text-center transition-all hover:scale-105 ${
-                    selectedProvince === key ? "ring-2 ring-[#4DD8CD]" : ""
-                  }`}
-                  style={{ backgroundColor: levelColors[province.level].bg + "20" }}
-                >
-                  <div 
-                    className="w-3 h-3 rounded-full mx-auto mb-1"
-                    style={{ backgroundColor: levelColors[province.level].bg }}
-                  />
-                  <p className="text-xs font-medium text-gray-700">{province.name}</p>
-                  <p className="text-xs text-gray-500">{province.providers}家</p>
-                </button>
-              ))}
+            // 中国地图地理位置布局 (9行7列)
+            <div className="grid gap-2" style={{ gridTemplateColumns: 'repeat(7, minmax(0, 1fr))', gridAutoRows: 'auto' }}>
+              {/* 第1行：新疆、内蒙古、黑龙江 */}
+              <div className="col-span-1 row-span-1" />
+              <ProvinceTile key="xinjiang" id="xinjiang" data={provinceData.xinjiang} selected={selectedProvince === "xinjiang"} onClick={() => setSelectedProvince("xinjiang")} />
+              <div className="col-span-2" />
+              <ProvinceTile key="neimenggu" id="neimenggu" data={provinceData.neimenggu} selected={selectedProvince === "neimenggu"} onClick={() => setSelectedProvince("neimenggu")} />
+              <div className="col-span-2" />
+              <ProvinceTile key="heilongjiang" id="heilongjiang" data={provinceData.heilongjiang} selected={selectedProvince === "heilongjiang"} onClick={() => setSelectedProvince("heilongjiang")} />
+
+              {/* 第2行：西藏、青海、甘肃、宁夏、陕西、山西、河北 */}
+              <ProvinceTile key="xizang" id="xizang" data={provinceData.xizang} selected={selectedProvince === "xizang"} onClick={() => setSelectedProvince("xizang")} />
+              <ProvinceTile key="qinghai" id="qinghai" data={provinceData.qinghai} selected={selectedProvince === "qinghai"} onClick={() => setSelectedProvince("qinghai")} />
+              <ProvinceTile key="gansu" id="gansu" data={provinceData.gansu} selected={selectedProvince === "gansu"} onClick={() => setSelectedProvince("gansu")} />
+              <ProvinceTile key="ningxia" id="ningxia" data={provinceData.ningxia} selected={selectedProvince === "ningxia"} onClick={() => setSelectedProvince("ningxia")} />
+              <ProvinceTile key="shaanxi" id="shaanxi" data={provinceData.shaanxi} selected={selectedProvince === "shaanxi"} onClick={() => setSelectedProvince("shaanxi")} />
+              <ProvinceTile key="shanxi" id="shanxi" data={provinceData.shanxi} selected={selectedProvince === "shanxi"} onClick={() => setSelectedProvince("shanxi")} />
+              <ProvinceTile key="hebei" id="hebei" data={provinceData.hebei} selected={selectedProvince === "hebei"} onClick={() => setSelectedProvince("hebei")} />
+
+              {/* 第3行：云南、贵州、四川、重庆、湖北、河南、山东、北京、天津 */}
+              <ProvinceTile key="yunnan" id="yunnan" data={provinceData.yunnan} selected={selectedProvince === "yunnan"} onClick={() => setSelectedProvince("yunnan")} />
+              <div className="col-span-1" />
+              <ProvinceTile key="guizhou" id="guizhou" data={provinceData.guizhou} selected={selectedProvince === "guizhou"} onClick={() => setSelectedProvince("guizhou")} />
+              <ProvinceTile key="sichuan" id="sichuan" data={provinceData.sichuan} selected={selectedProvince === "sichuan"} onClick={() => setSelectedProvince("sichuan")} />
+              <ProvinceTile key="chongqing" id="chongqing" data={provinceData.chongqing} selected={selectedProvince === "chongqing"} onClick={() => setSelectedProvince("chongqing")} />
+              <ProvinceTile key="hubei" id="hubei" data={provinceData.hubei} selected={selectedProvince === "hubei"} onClick={() => setSelectedProvince("hubei")} />
+              <ProvinceTile key="henan" id="henan" data={provinceData.henan} selected={selectedProvince === "henan"} onClick={() => setSelectedProvince("henan")} />
+
+              {/* 第4行：广西、湖南、江西、福建、浙江、江苏、上海 */}
+              <div className="col-span-1" />
+              <ProvinceTile key="guangxi" id="guangxi" data={provinceData.guangxi} selected={selectedProvince === "guangxi"} onClick={() => setSelectedProvince("guangxi")} />
+              <ProvinceTile key="hunan" id="hunan" data={provinceData.hunan} selected={selectedProvince === "hunan"} onClick={() => setSelectedProvince("hunan")} />
+              <ProvinceTile key="jiangxi" id="jiangxi" data={provinceData.jiangxi} selected={selectedProvince === "jiangxi"} onClick={() => setSelectedProvince("jiangxi")} />
+              <ProvinceTile key="fujian" id="fujian" data={provinceData.fujian} selected={selectedProvince === "fujian"} onClick={() => setSelectedProvince("fujian")} />
+              <ProvinceTile key="zhejiang" id="zhejiang" data={provinceData.zhejiang} selected={selectedProvince === "zhejiang"} onClick={() => setSelectedProvince("zhejiang")} />
+              <ProvinceTile key="jiangsu" id="jiangsu" data={provinceData.jiangsu} selected={selectedProvince === "jiangsu"} onClick={() => setSelectedProvince("jiangsu")} />
+              <ProvinceTile key="shanghai" id="shanghai" data={provinceData.shanghai} selected={selectedProvince === "shanghai"} onClick={() => setSelectedProvince("shanghai")} />
+
+              {/* 第5行：广东、海南、山东、辽宁、吉林 */}
+              <div className="col-span-2" />
+              <ProvinceTile key="guangdong" id="guangdong" data={provinceData.guangdong} selected={selectedProvince === "guangdong"} onClick={() => setSelectedProvince("guangdong")} />
+              <div className="col-span-1" />
+              <ProvinceTile key="shandong" id="shandong" data={provinceData.shandong} selected={selectedProvince === "shandong"} onClick={() => setSelectedProvince("shandong")} />
+              <ProvinceTile key="liaoning" id="liaoning" data={provinceData.liaoning} selected={selectedProvince === "liaoning"} onClick={() => setSelectedProvince("liaoning")} />
+              <ProvinceTile key="jilin" id="jilin" data={provinceData.jilin} selected={selectedProvince === "jilin"} onClick={() => setSelectedProvince("jilin")} />
+
+              {/* 第6行：海南 */}
+              <div className="col-span-2" />
+              <ProvinceTile key="hainan" id="hainan" data={provinceData.hainan} selected={selectedProvince === "hainan"} onClick={() => setSelectedProvince("hainan")} />
             </div>
           ) : (
             // 城市级网格地图

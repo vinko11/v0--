@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { ChevronLeft, Package, Truck, CheckCircle, RotateCcw, Clock } from "lucide-react"
+import { ChevronLeft, Package, Truck, CheckCircle, RotateCcw, Clock, Store } from "lucide-react"
 
 interface PointsOrderListPageProps {
   onBack: () => void
@@ -21,12 +21,21 @@ const statusConfig: Record<string, { label: string; color: string; icon: any }> 
   refund: { label: "退款中", color: "#ef4444", icon: RotateCcw },
 }
 
-// Mock积分订单
+// 商家类型配色
+const merchantTypeColors: Record<string, string> = {
+  health: "#10b981",
+  food: "#f59e0b",
+  medical: "#3b82f6",
+  home: "#8b5cf6",
+  lifestyle: "#ec4899",
+}
+
+// Mock积分订单 - 添加商家信息
 const mockOrders = [
-  { id: "JF202401150001", product: "护理眼罩", image: "https://images.unsplash.com/photo-1612817288484-6f916006741a?w=200&h=200&fit=crop", points: 500, cash: 9.9, status: "shipped", createTime: "2024-01-15" },
-  { id: "JF202401100002", product: "养生茶礼盒", image: "https://images.unsplash.com/photo-1564890369478-c89ca6d9cde9?w=200&h=200&fit=crop", points: 1000, cash: 19.9, status: "pending", createTime: "2024-01-10" },
-  { id: "JF202401050003", product: "保温杯", image: "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=200&h=200&fit=crop", points: 800, cash: 0, status: "completed", createTime: "2024-01-05" },
-  { id: "JF202312200004", product: "按摩枕", image: "https://images.unsplash.com/photo-1585412727339-54e4bae3bbf9?w=200&h=200&fit=crop", points: 1500, cash: 29.9, status: "refund", createTime: "2023-12-20" },
+  { id: "JF202401150001", product: "护理眼罩", image: "https://images.unsplash.com/photo-1612817288484-6f916006741a?w=200&h=200&fit=crop", points: 500, cash: 9.9, status: "shipped", createTime: "2024-01-15", merchantName: "康养健康馆", merchantType: "health" },
+  { id: "JF202401100002", product: "养生茶礼盒", image: "https://images.unsplash.com/photo-1564890369478-c89ca6d9cde9?w=200&h=200&fit=crop", points: 1000, cash: 19.9, status: "pending", createTime: "2024-01-10", merchantName: "茗香茶庄", merchantType: "food" },
+  { id: "JF202401050003", product: "保温杯", image: "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=200&h=200&fit=crop", points: 800, cash: 0, status: "completed", createTime: "2024-01-05", merchantName: "品质生活馆", merchantType: "lifestyle" },
+  { id: "JF202312200004", product: "按摩枕", image: "https://images.unsplash.com/photo-1585412727339-54e4bae3bbf9?w=200&h=200&fit=crop", points: 1500, cash: 29.9, status: "refund", createTime: "2023-12-20", merchantName: "舒适家居", merchantType: "home" },
 ]
 
 export default function PointsOrderListPage({ onBack }: PointsOrderListPageProps) {
@@ -78,13 +87,24 @@ export default function PointsOrderListPage({ onBack }: PointsOrderListPageProps
             const StatusIcon = status.icon
             return (
               <div key={order.id} className="bg-card rounded-2xl shadow-sm overflow-hidden">
-                {/* Header */}
+                {/* Header - 订单号和状态 */}
                 <div className="px-4 py-3 border-b border-border flex items-center justify-between">
                   <span className="text-xs text-muted-foreground">{order.id}</span>
                   <div className="flex items-center gap-1" style={{ color: status.color }}>
                     <StatusIcon className="w-4 h-4" />
                     <span className="text-sm">{status.label}</span>
                   </div>
+                </div>
+
+                {/* 商家信息行 */}
+                <div className="px-4 py-2 bg-muted/30 flex items-center gap-2">
+                  <Store className="w-4 h-4" style={{ color: merchantTypeColors[order.merchantType] }} />
+                  <span 
+                    className="text-xs font-medium"
+                    style={{ color: merchantTypeColors[order.merchantType] }}
+                  >
+                    {order.merchantName}
+                  </span>
                 </div>
 
                 {/* Content */}

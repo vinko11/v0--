@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Star, ChevronLeft, Search } from "lucide-react"
+import { Star, Search } from "lucide-react"
 
 const categories = [
   { id: "home", label: "居家护工" },
@@ -15,69 +15,76 @@ const categories = [
   { id: "health", label: "慢病监测" },
   { id: "renovation", label: "适老改造" },
   { id: "warm", label: "暖心服务" },
+  { id: "psychology", label: "心理健康" },
   { id: "more", label: "更多服务" },
 ]
 
 const allProducts: Record<string, any[]> = {
   home: [
-    { id: 1, image: "https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?w=300&h=300&fit=crop", name: "资深护工全天候陪护", spec: "24小时/天", rating: 99, price: 180 },
-    { id: 2, image: "https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=300&h=300&fit=crop", name: "专业居家护理服务", spec: "8小时/天", rating: 98, price: 120 },
-    { id: 3, image: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=300&h=300&fit=crop", name: "夜间陪护服务", spec: "12小时/晚", rating: 97, price: 150 },
+    { id: 1, image: "/images/service-1-caregiver-fullday.jpg", name: "资深护工全天候陪护", spec: "24小时/天", rating: 99, price: 180 },
+    { id: 2, image: "/images/service-2-home-care.jpg", name: "专业居家护理服务", spec: "8小时/天", rating: 98, price: 120 },
+    { id: 3, image: "/images/service-3-night-care.jpg", name: "夜间陪护服务", spec: "12小时/晚", rating: 97, price: 150 },
   ],
   hospital: [
-    { id: 4, image: "https://images.unsplash.com/photo-1551190822-a9333d879b1f?w=300&h=300&fit=crop", name: "住院全程陪护", spec: "24小时/天", rating: 99, price: 200 },
-    { id: 5, image: "https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=300&h=300&fit=crop", name: "手术期间陪护", spec: "按需服务", rating: 98, price: 250 },
-    { id: 6, image: "https://images.unsplash.com/photo-1631815588090-d4bfec5b1ccb?w=300&h=300&fit=crop", name: "ICU专业陪护", spec: "24小时/天", rating: 99, price: 300 },
+    { id: 4, image: "/images/service-4-hospital-care.jpg", name: "住院全程陪护", spec: "24小时/天", rating: 99, price: 200 },
+    { id: 5, image: "/images/service-5-surgery-care.jpg", name: "手术期间陪护", spec: "按需服务", rating: 98, price: 250 },
+    { id: 6, image: "/images/service-6-icu-care.jpg", name: "ICU专业陪护", spec: "24小时/天", rating: 99, price: 300 },
   ],
   medical: [
-    { id: 7, image: "https://images.unsplash.com/photo-1666214280557-f1b5022eb634?w=300&h=300&fit=crop", name: "陪同就医服务", spec: "半天/次", rating: 98, price: 100 },
-    { id: 8, image: "https://images.unsplash.com/photo-1631815589654-fda5e7d30ba8?w=300&h=300&fit=crop", name: "代取药品服务", spec: "单次", rating: 97, price: 50 },
-    { id: 9, image: "https://images.unsplash.com/photo-1579684453423-f84349ef60b0?w=300&h=300&fit=crop", name: "体检陪同服务", spec: "全天", rating: 99, price: 150 },
+    { id: 7, image: "/images/service-7-medical-companion.jpg", name: "陪同就医服务", spec: "半天/次", rating: 98, price: 100 },
+    { id: 8, image: "/images/service-8-medicine-delivery.jpg", name: "代取药品服务", spec: "单次", rating: 97, price: 50 },
+    { id: 9, image: "/images/service-9-health-checkup.jpg", name: "体检陪同服务", spec: "全天", rating: 99, price: 150 },
   ],
   bath: [
-    { id: 10, image: "https://images.unsplash.com/photo-1581594693702-fbdc51b2763b?w=300&h=300&fit=crop", name: "专业助浴上门服务", spec: "1次/1小时", rating: 99, price: 80 },
-    { id: 11, image: "https://images.unsplash.com/photo-1552693673-1bf958298935?w=300&h=300&fit=crop", name: "卧床老人助浴", spec: "1次/1.5小时", rating: 98, price: 120 },
-    { id: 12, image: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=300&h=300&fit=crop", name: "康复期助浴护理", spec: "1次/2小时", rating: 97, price: 150 },
+    { id: 10, image: "/images/service-10-bathing.jpg", name: "专业助浴上门服务", spec: "1次/1小时", rating: 99, price: 80 },
+    { id: 11, image: "/images/service-11-bedside-bathing.jpg", name: "卧床老人助浴", spec: "1次/1.5小时", rating: 98, price: 120 },
+    { id: 12, image: "/images/service-12-recovery-bathing.jpg", name: "康复期助浴护理", spec: "1次/2小时", rating: 97, price: 150 },
   ],
   meal: [
-    { id: 13, image: "https://images.unsplash.com/photo-1607962837359-5e7e89f86776?w=300&h=300&fit=crop", name: "营养餐配送服务", spec: "1天/3餐", rating: 96, price: 60 },
-    { id: 14, image: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=300&h=300&fit=crop", name: "糖尿病专属餐", spec: "1天/3餐", rating: 98, price: 80 },
-    { id: 15, image: "https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=300&h=300&fit=crop", name: "软食流质餐", spec: "1天/3餐", rating: 97, price: 70 },
+    { id: 13, image: "/images/service-13-nutrition-meal.jpg", name: "营养餐配送服务", spec: "1天/3餐", rating: 96, price: 60 },
+    { id: 14, image: "/images/service-14-diabetes-meal.jpg", name: "糖尿病专属餐", spec: "1天/3餐", rating: 98, price: 80 },
+    { id: 15, image: "/images/service-15-soft-food.jpg", name: "软食流质餐", spec: "1天/3餐", rating: 97, price: 70 },
   ],
   equipment: [
-    { id: 16, image: "https://images.unsplash.com/photo-1584515933487-779824d29309?w=300&h=300&fit=crop", name: "电动轮椅租赁", spec: "1个月", rating: 99, price: 300 },
-    { id: 17, image: "https://images.unsplash.com/photo-1559757175-5700dde675bc?w=300&h=300&fit=crop", name: "护理床租赁", spec: "1个月", rating: 98, price: 500 },
-    { id: 18, image: "https://images.unsplash.com/photo-1583947215259-38e31be8751f?w=300&h=300&fit=crop", name: "制氧机租赁", spec: "1个月", rating: 97, price: 400 },
+    { id: 16, image: "/images/service-16-wheelchair-rental.jpg", name: "电动轮椅租赁", spec: "1个月", rating: 99, price: 300 },
+    { id: 17, image: "/images/service-17-nursing-bed.jpg", name: "护理床租赁", spec: "1个月", rating: 98, price: 500 },
+    { id: 18, image: "/images/service-18-oxygen-machine.jpg", name: "制氧机租赁", spec: "1个月", rating: 97, price: 400 },
   ],
   cleaning: [
-    { id: 19, image: "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=300&h=300&fit=crop", name: "日常保洁服务", spec: "4小时/次", rating: 98, price: 100 },
-    { id: 20, image: "https://images.unsplash.com/photo-1563453392212-326f5e854473?w=300&h=300&fit=crop", name: "深度清洁服务", spec: "8小时/次", rating: 99, price: 200 },
-    { id: 21, image: "https://images.unsplash.com/photo-1628177142898-93e36e4e3a50?w=300&h=300&fit=crop", name: "定期保洁套餐", spec: "4次/月", rating: 97, price: 350 },
+    { id: 19, image: "/images/service-19-daily-cleaning.jpg", name: "日常保洁服务", spec: "4小时/次", rating: 98, price: 100 },
+    { id: 20, image: "/images/service-20-deep-cleaning.jpg", name: "深度清洁服务", spec: "8小时/次", rating: 99, price: 200 },
+    { id: 21, image: "/images/service-21-cleaning-package.jpg", name: "定期保洁套餐", spec: "4次/月", rating: 97, price: 350 },
   ],
   safety: [
-    { id: 22, image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=300&h=300&fit=crop", name: "居家安全评估", spec: "1次", rating: 99, price: 200 },
-    { id: 23, image: "https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=300&h=300&fit=crop", name: "防跌倒风险排查", spec: "1次", rating: 98, price: 150 },
-    { id: 24, image: "https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=300&h=300&fit=crop", name: "消防安全检查", spec: "1次", rating: 97, price: 100 },
+    { id: 22, image: "/images/service-22-safety-assessment.jpg", name: "居家安全评估", spec: "1次", rating: 99, price: 200 },
+    { id: 23, image: "/images/service-23-fall-prevention.jpg", name: "防跌倒风险排查", spec: "1次", rating: 98, price: 150 },
+    { id: 24, image: "/images/service-24-fire-safety.jpg", name: "消防安全检查", spec: "1次", rating: 97, price: 100 },
   ],
   health: [
-    { id: 25, image: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=300&h=300&fit=crop", name: "血压血糖监测", spec: "1个月", rating: 99, price: 300 },
-    { id: 26, image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=300&h=300&fit=crop", name: "心电远程监护", spec: "1个月", rating: 98, price: 500 },
-    { id: 27, image: "https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=300&h=300&fit=crop", name: "健康数据管理", spec: "1个月", rating: 97, price: 200 },
+    { id: 25, image: "/images/service-25-health-monitoring.jpg", name: "血压血糖监测", spec: "1个月", rating: 99, price: 300 },
+    { id: 26, image: "/images/service-26-heart-monitoring.jpg", name: "心电远程监护", spec: "1个月", rating: 98, price: 500 },
+    { id: 27, image: "/images/service-27-health-data.jpg", name: "健康数据管理", spec: "1个月", rating: 97, price: 200 },
   ],
   renovation: [
-    { id: 28, image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=300&h=300&fit=crop", name: "卫生间适老改造", spec: "整体方案", rating: 99, price: 5000 },
-    { id: 29, image: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=300&h=300&fit=crop", name: "无障碍通道改造", spec: "整体方案", rating: 98, price: 3000 },
-    { id: 30, image: "https://images.unsplash.com/photo-1513694203232-719a280e022f?w=300&h=300&fit=crop", name: "智能家居安装", spec: "基础套餐", rating: 97, price: 2000 },
+    { id: 28, image: "/images/service-28-bathroom-renovation.jpg", name: "卫生间适老改造", spec: "整体方案", rating: 99, price: 5000 },
+    { id: 29, image: "/images/service-29-accessible-passage.jpg", name: "无障碍通道改造", spec: "整体方案", rating: 98, price: 3000 },
+    { id: 30, image: "/images/service-30-smart-home.jpg", name: "智能家居安装", spec: "基础套餐", rating: 97, price: 2000 },
   ],
   warm: [
-    { id: 31, image: "https://images.unsplash.com/photo-1544027993-37dbfe43562a?w=300&h=300&fit=crop", name: "陪聊陪伴服务", spec: "2小时/次", rating: 99, price: 50 },
-    { id: 32, image: "https://images.unsplash.com/photo-1516321497487-e288fb19713f?w=300&h=300&fit=crop", name: "代购跑腿服务", spec: "单次", rating: 98, price: 30 },
-    { id: 33, image: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=300&h=300&fit=crop", name: "节日探访服务", spec: "单次", rating: 97, price: 100 },
+    { id: 31, image: "/images/service-31-companionship.jpg", name: "陪聊陪伴服务", spec: "2小时/次", rating: 99, price: 50 },
+    { id: 32, image: "/images/service-32-shopping-errand.jpg", name: "代购跑腿服务", spec: "单次", rating: 98, price: 30 },
+    { id: 33, image: "/images/service-33-holiday-visit.jpg", name: "节日探访服务", spec: "单次", rating: 97, price: 100 },
+  ],
+  psychology: [
+    { id: 37, image: "/images/service-37-psychology-online.jpg", name: "心理疏导【线上】", spec: "1小时/次", rating: 99, price: 150 },
+    { id: 38, image: "/images/service-38-emotion-consulting.jpg", name: "情绪管理咨询", spec: "1.5小时/次", rating: 98, price: 200 },
+    { id: 39, image: "/images/service-39-sleep-care.jpg", name: "睡眠障碍调理", spec: "整体方案", rating: 97, price: 500 },
+    { id: 40, image: "/images/service-40-cognitive-training.jpg", name: "认知功能训练", spec: "10次/疗程", rating: 99, price: 800 },
   ],
   more: [
-    { id: 34, image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300&h=300&fit=crop", name: "定制化护理方案", spec: "按需定制", rating: 99, price: 0 },
-    { id: 35, image: "https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?w=300&h=300&fit=crop", name: "企业团购服务", spec: "批量订购", rating: 98, price: 0 },
-    { id: 36, image: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=300&h=300&fit=crop", name: "长期护理套餐", spec: "年度服务", rating: 97, price: 0 },
+    { id: 34, image: "/images/service-34-customized-care.jpg", name: "定制化护理方案", spec: "按需定制", rating: 99, price: 0 },
+    { id: 35, image: "/images/service-35-corporate-bulk.jpg", name: "企业团购服务", spec: "批量订购", rating: 98, price: 0 },
+    { id: 36, image: "/images/service-36-longterm-care.jpg", name: "长期护理套餐", spec: "年度服务", rating: 97, price: 0 },
   ],
 }
 
@@ -104,17 +111,17 @@ export default function CategoryPage({ onProductClick, onBack, initialCategory }
 
   return (
     <div className="min-h-screen bg-background flex">
-      {/* Left Sidebar */}
-      <div className="w-[22%] bg-card border-r border-border">
+      {/* 左侧分类导航 - 加宽字体放大适合老年人 */}
+      <div className="w-[28%] bg-card border-r border-border shadow-sm">
         <div className="py-2 overflow-y-auto" style={{ maxHeight: "100vh" }}>
           {categories.map((cat) => (
             <button
               key={cat.id}
               onClick={() => setActiveCategory(cat.id)}
-              className={`w-full py-3 px-3 text-sm text-left transition-colors ${
+              className={`w-full py-5 px-3 text-lg text-center transition-all duration-200 ${
                 activeCategory === cat.id
-                  ? "bg-secondary text-primary font-medium border-l-2 border-primary"
-                  : "text-foreground"
+                  ? "bg-gradient-to-r from-[#E8FBF9] to-[#F0FDFC] text-[#0D9488] font-bold border-l-4 border-[#4DD8CD]"
+                  : "text-gray-700 hover:bg-gray-50 active:bg-gray-100"
               }`}
             >
               {cat.label}
@@ -123,23 +130,24 @@ export default function CategoryPage({ onProductClick, onBack, initialCategory }
         </div>
       </div>
 
-      {/* Right Content */}
-      <div className="flex-1 pb-20">
-        {/* Search Box */}
-        <div className="px-3 py-3 bg-background sticky top-0 z-10">
+      {/* 右侧内容区 */}
+      <div className="flex-1 pb-20 bg-gray-50">
+        {/* 搜索框 - 放大搜索区域 */}
+        <div className="px-4 py-4 bg-white sticky top-0 z-10 shadow-sm">
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
             <input
               type="text"
-              placeholder="搜索产品..."
+              placeholder="搜索服务..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-card text-foreground placeholder:text-muted-foreground rounded-lg px-4 py-2.5 pl-10 text-sm outline-none border border-border focus:border-primary focus:ring-1 focus:ring-primary transition-colors shadow-sm"
+              className="w-full bg-gray-100 text-gray-800 placeholder:text-gray-400 rounded-xl px-5 py-3.5 pl-12 text-base outline-none border-2 border-transparent focus:border-[#4DD8CD] focus:bg-white transition-all shadow-sm"
             />
           </div>
         </div>
 
-        <div className="p-3 pt-0 space-y-3">
+        {/* 商品列表 - 横向卡片布局 */}
+        <div className="p-3 space-y-3">
           {filteredProducts.length > 0 ? (
             filteredProducts.map((product) => (
               <button
@@ -153,42 +161,52 @@ export default function CategoryPage({ onProductClick, onBack, initialCategory }
                   rating: product.rating / 20,
                   sold: Math.floor(Math.random() * 300) + 100,
                 })}
-                className="w-full bg-card rounded-2xl overflow-hidden shadow-sm flex text-left"
+                className="w-full bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow text-left border border-gray-100 flex"
               >
+                {/* 左侧图片 */}
                 <img
                   src={product.image}
                   alt={product.name}
-                  className="w-28 h-28 object-cover"
+                  className="w-28 h-28 object-cover flex-shrink-0"
                 />
+                
+                {/* 右侧信息 */}
                 <div className="flex-1 p-3 flex flex-col justify-between">
-                  <div>
-                    <h3 className="font-medium text-foreground text-sm line-clamp-2">
-                      {product.name}
-                    </h3>
-                    <div className="flex items-center gap-2 mt-1">
-                      <span className="text-xs text-muted-foreground bg-muted px-2 py-0.5 rounded">
-                        {product.spec}
-                      </span>
-                      <span className="text-xs text-muted-foreground flex items-center gap-0.5">
-                        <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
-                        好评 {product.rating}%
-                      </span>
+                  {/* 服务名称 */}
+                  <h3 className="font-bold text-gray-900 text-base leading-snug line-clamp-2">
+                    {product.name}
+                  </h3>
+                  
+                  {/* 规格和评分 */}
+                  <div className="space-y-1.5">
+                    <span className="inline-block text-sm text-[#0D9488] bg-[#E8FBF9] px-2 py-0.5 rounded">
+                      {product.spec}
+                    </span>
+                    <div className="flex items-center gap-1">
+                      <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
+                      <span className="text-sm text-gray-600">好评 {product.rating}%</span>
                     </div>
                   </div>
-                  <div className="flex items-center justify-between mt-2">
-                    <span className="text-primary font-bold">
+                  
+                  {/* 价格 */}
+                  <div className="flex items-center justify-between">
+                    <span className="text-xl font-bold text-[#0D9488]">
                       {product.price === 0 ? "面议" : `¥${product.price}`}
-                    </span>
-                    <span className="bg-gradient-to-r from-[#71F2DC] to-[#4DD8CD] text-white text-xs px-4 py-1.5 rounded-full font-medium">
-                      预约
+                      {product.price !== 0 && (
+                        <span className="text-sm text-gray-500 font-normal ml-0.5">起</span>
+                      )}
                     </span>
                   </div>
                 </div>
               </button>
             ))
           ) : (
-            <div className="flex items-center justify-center py-12">
-              <p className="text-muted-foreground text-sm">未找到相关产品</p>
+            <div className="flex flex-col items-center justify-center py-16 bg-white rounded-2xl">
+              <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mb-4">
+                <Search className="w-10 h-10 text-gray-300" />
+              </div>
+              <p className="text-gray-500 text-lg">未找到相关服务</p>
+              <p className="text-gray-400 text-base mt-1">请尝试其他关键词</p>
             </div>
           )}
         </div>

@@ -88,7 +88,7 @@ export default function ProfilePage() {
           <div className="flex items-center gap-3">
             <div className="w-16 h-16 rounded-full bg-white/20 border-2 border-white overflow-hidden">
               <img
-                src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=128&h=128&fit=crop"
+                src="/images/avatar-elderly.jpg"
                 alt="用户头像"
                 className="w-full h-full object-cover"
               />

@@ -111,14 +111,14 @@ export default function CategoryPage({ onProductClick, onBack, initialCategory }
 
   return (
     <div className="min-h-screen bg-background flex">
-      {/* 左侧分类导航 - 加宽并优化老年人阅读体验 */}
-      <div className="w-[30%] bg-card border-r border-border shadow-sm">
+      {/* 左侧分类导航 - 加宽字体放大适合老年人 */}
+      <div className="w-[28%] bg-card border-r border-border shadow-sm">
         <div className="py-2 overflow-y-auto" style={{ maxHeight: "100vh" }}>
           {categories.map((cat) => (
             <button
               key={cat.id}
               onClick={() => setActiveCategory(cat.id)}
-              className={`w-full py-4 px-4 text-base text-left transition-all duration-200 ${
+              className={`w-full py-5 px-3 text-lg text-center transition-all duration-200 ${
                 activeCategory === cat.id
                   ? "bg-gradient-to-r from-[#E8FBF9] to-[#F0FDFC] text-[#0D9488] font-bold border-l-4 border-[#4DD8CD]"
                   : "text-gray-700 hover:bg-gray-50 active:bg-gray-100"
@@ -156,8 +156,8 @@ export default function CategoryPage({ onProductClick, onBack, initialCategory }
           </p>
         </div>
 
-        {/* 商品列表 - 大字体大按钮 */}
-        <div className="p-4 space-y-4">
+        {/* 商品列表 - 横向卡片布局 */}
+        <div className="p-3 space-y-3">
           {filteredProducts.length > 0 ? (
             filteredProducts.map((product) => (
               <button
@@ -171,48 +171,40 @@ export default function CategoryPage({ onProductClick, onBack, initialCategory }
                   rating: product.rating / 20,
                   sold: Math.floor(Math.random() * 300) + 100,
                 })}
-                className="w-full bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-lg transition-shadow text-left border border-gray-100"
+                className="w-full bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow text-left border border-gray-100 flex"
               >
-                {/* 上方图片区 */}
-                <div className="relative">
-                  <img
-                    src={product.image}
-                    alt={product.name}
-                    className="w-full h-40 object-cover"
-                  />
-                  {/* 好评标签 */}
-                  <div className="absolute top-3 right-3 bg-white/95 backdrop-blur-sm px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-sm">
-                    <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
-                    <span className="text-sm font-bold text-amber-600">{product.rating}%好评</span>
-                  </div>
-                </div>
+                {/* 左侧图片 */}
+                <img
+                  src={product.image}
+                  alt={product.name}
+                  className="w-28 h-28 object-cover flex-shrink-0"
+                />
                 
-                {/* 下方信息区 */}
-                <div className="p-4">
-                  {/* 服务名称 - 大字体加粗 */}
-                  <h3 className="font-bold text-gray-900 text-lg leading-tight">
+                {/* 右侧信息 */}
+                <div className="flex-1 p-3 flex flex-col justify-between">
+                  {/* 服务名称 */}
+                  <h3 className="font-bold text-gray-900 text-base leading-snug line-clamp-2">
                     {product.name}
                   </h3>
                   
-                  {/* 服务规格 */}
-                  <div className="mt-2 flex items-center gap-2">
-                    <span className="text-sm text-white bg-[#4DD8CD] px-3 py-1 rounded-full font-medium">
+                  {/* 规格和评分 */}
+                  <div className="space-y-1.5">
+                    <span className="inline-block text-sm text-[#0D9488] bg-[#E8FBF9] px-2 py-0.5 rounded">
                       {product.spec}
                     </span>
+                    <div className="flex items-center gap-1">
+                      <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
+                      <span className="text-sm text-gray-600">好评 {product.rating}%</span>
+                    </div>
                   </div>
                   
-                  {/* 价格和预约按钮 */}
-                  <div className="flex items-center justify-between mt-4">
-                    <div>
-                      <span className="text-2xl font-bold text-[#0D9488]">
-                        {product.price === 0 ? "面议" : `¥${product.price}`}
-                      </span>
+                  {/* 价格 */}
+                  <div className="flex items-center justify-between">
+                    <span className="text-xl font-bold text-[#0D9488]">
+                      {product.price === 0 ? "面议" : `¥${product.price}`}
                       {product.price !== 0 && (
-                        <span className="text-sm text-gray-500 ml-1">起</span>
+                        <span className="text-sm text-gray-500 font-normal ml-0.5">起</span>
                       )}
-                    </div>
-                    <span className="bg-gradient-to-r from-[#4DD8CD] to-[#38B2A5] text-white text-base px-6 py-2.5 rounded-full font-bold shadow-md hover:shadow-lg transition-shadow">
-                      立即预约
                     </span>
                   </div>
                 </div>

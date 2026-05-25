@@ -339,6 +339,10 @@ export default function HomePage({ onProductClick, onInstitutionClick, onService
                 <span className="text-[#4DD8CD] font-bold">¥128</span>
                 <span className="text-xs text-gray-400">/次</span>
               </p>
+              <div className="mt-2 space-y-1">
+                <p className="text-xs text-gray-600">8小时/天</p>
+                <p className="text-xs text-gray-600">⭐好评 98%</p>
+              </div>
             </div>
           </button>
           
@@ -362,6 +366,10 @@ export default function HomePage({ onProductClick, onInstitutionClick, onService
                 <span className="text-[#4DD8CD] font-bold">¥180</span>
                 <span className="text-xs text-gray-400">/次</span>
               </p>
+              <div className="mt-2 space-y-1">
+                <p className="text-xs text-gray-600">4小时/次</p>
+                <p className="text-xs text-gray-600">⭐好评 96%</p>
+              </div>
             </div>
           </button>
         </div>

@@ -32,18 +32,21 @@ const orderStatuses = [
   { icon: RotateCcw, label: "退款", color: "#ef4444", page: "refunding" },
 ]
 
-const tools = [
+const personalTools = [
   { icon: Heart, label: "我的收藏", color: "#ef4444", page: "favorites" as SubPage },
   { icon: Ticket, label: "优惠券", color: "#f59e0b", page: "coupons" as SubPage },
   { icon: ShoppingCart, label: "购物车", color: "#10b981", page: "cart" as SubPage },
-  { icon: Building2, label: "机构入驻", color: "#3b82f6", page: "institution" as SubPage },
-  { icon: Users, label: "服务人员入驻", color: "#10b981", page: "staff" as SubPage },
   { icon: TrendingUp, label: "推荐得积分", color: "#f59e0b", page: "referral" as SubPage },
   { icon: MapPin, label: "我的地址", color: "#ef4444", page: "address" as SubPage },
-  { icon: FileText, label: "服务协议", color: "#8b5cf6", page: "agreement" as SubPage },
   { icon: Headphones, label: "联系客服", color: "#06b6d4", page: "service" as SubPage },
   { icon: Info, label: "关于我们", color: "#6b7280", page: "about" as SubPage },
   { icon: Settings, label: "设置", color: "#374151", page: "settings" as SubPage },
+]
+
+const businessTools = [
+  { icon: Building2, label: "机构入驻", color: "#3b82f6", page: "institution" as SubPage },
+  { icon: Users, label: "服务人员入驻", color: "#10b981", page: "staff" as SubPage },
+  { icon: FileText, label: "服务协议", color: "#8b5cf6", page: "agreement" as SubPage },
 ]
 
 export default function ProfilePage() {
@@ -176,11 +179,33 @@ export default function ProfilePage() {
         </div>
       </div>
 
-      {/* Tools Section - Icon Grid */}
+      {/* Personal Tools Section */}
       <div className="mx-4 mt-4 bg-card rounded-2xl p-4 shadow-sm">
-        <h3 className="font-bold text-foreground mb-4">常用工具</h3>
+        <h3 className="font-bold text-foreground mb-4">个人服务</h3>
         <div className="grid grid-cols-4 gap-4">
-          {tools.map((tool, index) => (
+          {personalTools.map((tool, index) => (
+            <button 
+              key={index} 
+              onClick={() => setCurrentPage(tool.page)}
+              className="flex flex-col items-center gap-1.5"
+            >
+              <div
+                className="w-11 h-11 rounded-full flex items-center justify-center"
+                style={{ backgroundColor: `${tool.color}15` }}
+              >
+                <tool.icon className="w-5 h-5" style={{ color: tool.color }} />
+              </div>
+              <span className="text-xs text-foreground text-center">{tool.label}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Business Tools Section */}
+      <div className="mx-4 mt-4 bg-card rounded-2xl p-4 shadow-sm">
+        <h3 className="font-bold text-foreground mb-4">商家中心</h3>
+        <div className="grid grid-cols-4 gap-4">
+          {businessTools.map((tool, index) => (
             <button 
               key={index} 
               onClick={() => setCurrentPage(tool.page)}

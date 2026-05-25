@@ -78,8 +78,13 @@ const allProducts: Record<string, any[]> = {
   psychology: [
     { id: 37, image: "/images/service-37-psychology-online.jpg", name: "心理疏导【线上】", spec: "1小时/次", rating: 99, price: 150 },
     { id: 38, image: "/images/service-38-emotion-consulting.jpg", name: "情绪管理咨询", spec: "1.5小时/次", rating: 98, price: 200 },
-    { id: 39, image: "https://images.unsplash.com/photo-1516321497487-e288fb19713f?w=300&h=300&fit=crop", name: "睡眠障�����调理", spec: "整体方案", rating: 97, price: 500 },
-    { id: 40, image: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=300&h=300&fit=crop", name: "认知功能训练", spec: "10次/疗程", rating: 99, price: 800 },
+    { id: 39, image: "/images/service-39-sleep-care.jpg", name: "睡眠障碍调理", spec: "整体方案", rating: 97, price: 500 },
+    { id: 40, image: "/images/service-40-cognitive-training.jpg", name: "认知功能训练", spec: "10次/疗程", rating: 99, price: 800 },
+  ],
+  more: [
+    { id: 34, image: "/images/service-34-customized-care.jpg", name: "定制化护理方案", spec: "按需定制", rating: 99, price: 0 },
+    { id: 35, image: "/images/service-35-corporate-bulk.jpg", name: "企业团购服务", spec: "批量订购", rating: 98, price: 0 },
+    { id: 36, image: "/images/service-36-longterm-care.jpg", name: "长期护理套餐", spec: "年度服务", rating: 97, price: 0 },
   ],
   more: [
     { id: 34, image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300&h=300&fit=crop", name: "定制化护理方案", spec: "按需定制", rating: 99, price: 0 },

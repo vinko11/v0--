@@ -92,6 +92,7 @@ export default function ProfilePage() {
             </div>
             <div className="text-white">
               <h2 className="font-bold text-lg">张先生</h2>
+              <p className="text-white/80 text-sm">ID: 53000001</p>
               <p className="text-white/80 text-sm">138****8888</p>
             </div>
           </div>

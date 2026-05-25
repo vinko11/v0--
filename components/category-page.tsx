@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Star, ChevronLeft, Search } from "lucide-react"
+import { Star, Search } from "lucide-react"
 
 const categories = [
   { id: "home", label: "居家护工" },
@@ -86,11 +86,6 @@ const allProducts: Record<string, any[]> = {
     { id: 35, image: "/images/service-35-corporate-bulk.jpg", name: "企业团购服务", spec: "批量订购", rating: 98, price: 0 },
     { id: 36, image: "/images/service-36-longterm-care.jpg", name: "长期护理套餐", spec: "年度服务", rating: 97, price: 0 },
   ],
-  more: [
-    { id: 34, image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300&h=300&fit=crop", name: "定制化护理方案", spec: "按需定制", rating: 99, price: 0 },
-    { id: 35, image: "https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?w=300&h=300&fit=crop", name: "企业团购服务", spec: "批量订购", rating: 98, price: 0 },
-    { id: 36, image: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=300&h=300&fit=crop", name: "长期护理套餐", spec: "年度服务", rating: 97, price: 0 },
-  ],
 }
 
 interface CategoryPageProps {
@@ -116,17 +111,17 @@ export default function CategoryPage({ onProductClick, onBack, initialCategory }
 
   return (
     <div className="min-h-screen bg-background flex">
-      {/* Left Sidebar */}
-      <div className="w-[22%] bg-card border-r border-border">
+      {/* 左侧分类导航 - 加宽并优化老年人阅读体验 */}
+      <div className="w-[30%] bg-card border-r border-border shadow-sm">
         <div className="py-2 overflow-y-auto" style={{ maxHeight: "100vh" }}>
           {categories.map((cat) => (
             <button
               key={cat.id}
               onClick={() => setActiveCategory(cat.id)}
-              className={`w-full py-3 px-3 text-sm text-left transition-colors ${
+              className={`w-full py-4 px-4 text-base text-left transition-all duration-200 ${
                 activeCategory === cat.id
-                  ? "bg-secondary text-primary font-medium border-l-2 border-primary"
-                  : "text-foreground"
+                  ? "bg-gradient-to-r from-[#E8FBF9] to-[#F0FDFC] text-[#0D9488] font-bold border-l-4 border-[#4DD8CD]"
+                  : "text-gray-700 hover:bg-gray-50 active:bg-gray-100"
               }`}
             >
               {cat.label}
@@ -135,23 +130,34 @@ export default function CategoryPage({ onProductClick, onBack, initialCategory }
         </div>
       </div>
 
-      {/* Right Content */}
-      <div className="flex-1 pb-20">
-        {/* Search Box */}
-        <div className="px-3 py-3 bg-background sticky top-0 z-10">
+      {/* 右侧内容区 */}
+      <div className="flex-1 pb-20 bg-gray-50">
+        {/* 搜索框 - 放大搜索区域 */}
+        <div className="px-4 py-4 bg-white sticky top-0 z-10 shadow-sm">
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
             <input
               type="text"
-              placeholder="搜索产品..."
+              placeholder="搜索服务..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-card text-foreground placeholder:text-muted-foreground rounded-lg px-4 py-2.5 pl-10 text-sm outline-none border border-border focus:border-primary focus:ring-1 focus:ring-primary transition-colors shadow-sm"
+              className="w-full bg-gray-100 text-gray-800 placeholder:text-gray-400 rounded-xl px-5 py-3.5 pl-12 text-base outline-none border-2 border-transparent focus:border-[#4DD8CD] focus:bg-white transition-all shadow-sm"
             />
           </div>
         </div>
 
-        <div className="p-3 pt-0 space-y-3">
+        {/* 当前分类标题 */}
+        <div className="px-4 py-3 bg-white border-b border-gray-100">
+          <h2 className="text-lg font-bold text-gray-800">
+            {categories.find(c => c.id === activeCategory)?.label}
+          </h2>
+          <p className="text-sm text-gray-500 mt-0.5">
+            共 {filteredProducts.length} 项服务
+          </p>
+        </div>
+
+        {/* 商品列表 - 大字体大按钮 */}
+        <div className="p-4 space-y-4">
           {filteredProducts.length > 0 ? (
             filteredProducts.map((product) => (
               <button
@@ -165,44 +171,60 @@ export default function CategoryPage({ onProductClick, onBack, initialCategory }
                   rating: product.rating / 20,
                   sold: Math.floor(Math.random() * 300) + 100,
                 })}
-                className="w-full bg-card rounded-2xl overflow-hidden shadow-sm flex text-left"
+                className="w-full bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-lg transition-shadow text-left border border-gray-100"
               >
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  className="w-28 h-28 object-cover"
-                />
-                <div className="flex-1 p-3 flex flex-col justify-between">
-                  <div>
-                    <h3 className="font-medium text-foreground text-sm line-clamp-2">
-                      {product.name}
-                    </h3>
-                    <div className="mt-1 space-y-1">
-                      <div className="flex items-center gap-2">
-                        <span className="text-xs text-muted-foreground bg-muted px-2 py-0.5 rounded">
-                          {product.spec}
-                        </span>
-                      </div>
-                      <div className="flex items-center gap-0.5">
-                        <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
-                        <span className="text-xs text-muted-foreground">好评 {product.rating}%</span>
-                      </div>
-                    </div>
+                {/* 上方图片区 */}
+                <div className="relative">
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    className="w-full h-40 object-cover"
+                  />
+                  {/* 好评标签 */}
+                  <div className="absolute top-3 right-3 bg-white/95 backdrop-blur-sm px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-sm">
+                    <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
+                    <span className="text-sm font-bold text-amber-600">{product.rating}%好评</span>
                   </div>
-                  <div className="flex items-center justify-between mt-2">
-                    <span className="text-primary font-bold">
-                      {product.price === 0 ? "面议" : `¥${product.price}`}
+                </div>
+                
+                {/* 下方信息区 */}
+                <div className="p-4">
+                  {/* 服务名称 - 大字体加粗 */}
+                  <h3 className="font-bold text-gray-900 text-lg leading-tight">
+                    {product.name}
+                  </h3>
+                  
+                  {/* 服务规格 */}
+                  <div className="mt-2 flex items-center gap-2">
+                    <span className="text-sm text-white bg-[#4DD8CD] px-3 py-1 rounded-full font-medium">
+                      {product.spec}
                     </span>
-                    <span className="bg-gradient-to-r from-[#71F2DC] to-[#4DD8CD] text-white text-xs px-4 py-1.5 rounded-full font-medium">
-                      预约
+                  </div>
+                  
+                  {/* 价格和预约按钮 */}
+                  <div className="flex items-center justify-between mt-4">
+                    <div>
+                      <span className="text-2xl font-bold text-[#0D9488]">
+                        {product.price === 0 ? "面议" : `¥${product.price}`}
+                      </span>
+                      {product.price !== 0 && (
+                        <span className="text-sm text-gray-500 ml-1">起</span>
+                      )}
+                    </div>
+                    <span className="bg-gradient-to-r from-[#4DD8CD] to-[#38B2A5] text-white text-base px-6 py-2.5 rounded-full font-bold shadow-md hover:shadow-lg transition-shadow">
+                      立即预约
                     </span>
                   </div>
                 </div>
               </button>
             ))
           ) : (
-            <div className="flex items-center justify-center py-12">
-              <p className="text-muted-foreground text-sm">未找到相关产品</p>
+            <div className="flex flex-col items-center justify-center py-16 bg-white rounded-2xl">
+              <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mb-4">
+                <Search className="w-10 h-10 text-gray-300" />
+              </div>
+              <p className="text-gray-500 text-lg">未找到相关服务</p>
+              <p className="text-gray-400 text-base mt-1">请尝试其他关键词</p>
             </div>
           )}
         </div>

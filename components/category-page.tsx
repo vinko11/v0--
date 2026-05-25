@@ -78,7 +78,7 @@ const allProducts: Record<string, any[]> = {
   psychology: [
     { id: 37, image: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=300&h=300&fit=crop", name: "心理疏导【线上】", spec: "1小时/次", rating: 99, price: 150 },
     { id: 38, image: "https://images.unsplash.com/photo-1544027993-37dbfe43562a?w=300&h=300&fit=crop", name: "情绪管理咨询", spec: "1.5小时/次", rating: 98, price: 200 },
-    { id: 39, image: "https://images.unsplash.com/photo-1516321497487-e288fb19713f?w=300&h=300&fit=crop", name: "睡眠障碍调理", spec: "整体方案", rating: 97, price: 500 },
+    { id: 39, image: "https://images.unsplash.com/photo-1516321497487-e288fb19713f?w=300&h=300&fit=crop", name: "睡眠障���调理", spec: "整体方案", rating: 97, price: 500 },
     { id: 40, image: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=300&h=300&fit=crop", name: "认知功能训练", spec: "10次/疗程", rating: 99, price: 800 },
   ],
   more: [
@@ -172,14 +172,16 @@ export default function CategoryPage({ onProductClick, onBack, initialCategory }
                     <h3 className="font-medium text-foreground text-sm line-clamp-2">
                       {product.name}
                     </h3>
-                    <div className="flex items-center gap-2 mt-1">
-                      <span className="text-xs text-muted-foreground bg-muted px-2 py-0.5 rounded">
-                        {product.spec}
-                      </span>
-                      <span className="text-xs text-muted-foreground flex items-center gap-0.5">
+                    <div className="mt-1 space-y-1">
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs text-muted-foreground bg-muted px-2 py-0.5 rounded">
+                          {product.spec}
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-0.5">
                         <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
-                        好评 {product.rating}%
-                      </span>
+                        <span className="text-xs text-muted-foreground">好评 {product.rating}%</span>
+                      </div>
                     </div>
                   </div>
                   <div className="flex items-center justify-between mt-2">

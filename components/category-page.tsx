@@ -146,16 +146,6 @@ export default function CategoryPage({ onProductClick, onBack, initialCategory }
           </div>
         </div>
 
-        {/* 当前分类标题 */}
-        <div className="px-4 py-3 bg-white border-b border-gray-100">
-          <h2 className="text-lg font-bold text-gray-800">
-            {categories.find(c => c.id === activeCategory)?.label}
-          </h2>
-          <p className="text-sm text-gray-500 mt-0.5">
-            共 {filteredProducts.length} 项服务
-          </p>
-        </div>
-
         {/* 商品列表 - 横向卡片布局 */}
         <div className="p-3 space-y-3">
           {filteredProducts.length > 0 ? (

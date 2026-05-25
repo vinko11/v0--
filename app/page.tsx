@@ -27,12 +27,12 @@ export default function App() {
   const [initialCategory, setInitialCategory] = useState<string>("")
   const [showUrgentModal, setShowUrgentModal] = useState(false)
 
-  // 首次加载检查紧急公告
-  useEffect(() => {
-    if (hasUrgentAnnouncement()) {
-      setShowUrgentModal(true)
-    }
-  }, [])
+  // 首次加载检查紧急公告 - 已禁用自动显示，保留代码供后续需要
+  // useEffect(() => {
+  //   if (hasUrgentAnnouncement()) {
+  //     setShowUrgentModal(true)
+  //   }
+  // }, [])
 
   const handleProductClick = (product: any) => {
     setSelectedProduct(product)
